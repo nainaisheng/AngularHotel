@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+  
+<mapper namespace="com.hotel.mapper.UserMapper">
+	
+	<select id="getUser" parameterType="com.hotel.pojo.LoginUser" resultType="com.hotel.pojo.User">
+		select t_user.Id,UserName,`Password`,RealName,Sex,TelPhone,Email,UserRoleTypeId,t_user.CreateDate,t_user.UserStateId
+		from t_user,t_userrole
+		where t_user.Id=t_userrole.UserId
+		and (UserName= #{loginName}
+		OR TelPhone=#{loginName}
+		OR Email=#{loginName})
+		AND Password=(#{loginPassword})
+	</select>
+
+	<update id="updateUser" parameterType="com.hotel.pojo.User">
+		update t_user set UserName=#{userName},TelPhone=#{telPhone},Email=#{email},Editor=#{userName},EditDate=#{editDate},UserStateId=#{userStateId},UserStateId=#{userStateId} WHERE Id=#{id}
+	</update>
+
+	<update id="updatePassword" parameterType="com.hotel.pojo.User">
+		update t_user set Password=#{password},Editor=#{userName},EditDate=#{editDate} WHERE Id=#{id}
+	</update>
+
+	<select id="getAllTenantsCount" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			t_user
+		WHERE
+			t_user.Id in (
+				SELECT
+					t_userrole.UserId
+				FROM
+					t_userrole
+				WHERE
+					t_userrole.UserRoleTypeId=2
+			)
+	</select>
+	<select id="getAllOwnersCount" resultType="int">
+		SELECT
+		COUNT(*)
+		FROM
+		t_user
+		WHERE
+		t_user.Id in (
+		SELECT
+		t_userrole.UserId
+		FROM
+		t_userrole
+		WHERE
+		t_userrole.UserRoleTypeId=1
+		)
+	</select>
+
+	<select id="getAllTenants" resultType="com.hotel.pojo.User">
+		SELECT
+			*
+		FROM
+			t_user
+		WHERE
+			t_user.Id in (
+				SELECT
+					t_userrole.UserId
+				FROM
+					t_userrole
+				WHERE
+					t_userrole.UserRoleTypeId = 2
+			)
+		ORDER BY t_user.Id DESC LIMIT #{start},#{limit}
+	</select>
+
+	<select id="getAllOwners" resultType="com.hotel.pojo.User">
+		SELECT
+		*
+		FROM
+		t_user
+		WHERE
+		t_user.Id in (
+		SELECT
+		t_userrole.UserId
+		FROM
+		t_userrole
+		WHERE
+		t_userrole.UserRoleTypeId = 1
+		)
+		ORDER BY t_user.Id DESC LIMIT #{start},#{limit}
+	</select>
+
+	<select id="getPartTenantsCount" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			t_user
+		WHERE
+			t_user.Id IN (
+				SELECT
+					t_userrole.UserId
+				FROM
+					t_userrole
+				WHERE
+					t_userrole.UserRoleTypeId = 2
+				AND t_userrole.Id IN (
+					SELECT
+						t_authorization.UserRoleId
+					FROM
+						t_authorization
+					WHERE
+						t_authorization.AreaId = #{areaId}
+
+						or t_authorization.AreaId IN (
+							SELECT
+								t_area.ParentId
+							FROM
+								t_area
+							WHERE
+								t_area.ParentId = #{areaId}
+								or t_authorization.AreaId IN (
+								SELECT
+									t_area.ParentId
+								FROM
+									t_area
+								WHERE
+									t_area.ParentId = #{areaId}
+						)
+						)
+				)
+			)
+	</select>
+	<select id="getPartOwnersCount" resultType="int">
+		SELECT
+		count(*)
+		FROM
+		t_user
+		WHERE
+		t_user.Id IN (
+		SELECT
+		t_userrole.UserId
+		FROM
+		t_userrole
+		WHERE
+		t_userrole.UserRoleTypeId = 1
+		AND t_userrole.Id IN (
+		SELECT
+		t_authorization.UserRoleId
+		FROM
+		t_authorization
+		WHERE
+		t_authorization.AreaId = #{areaId}
+
+		or t_authorization.AreaId IN (
+		SELECT
+		t_area.ParentId
+		FROM
+		t_area
+		WHERE
+		t_area.ParentId = #{areaId}
+		or t_authorization.AreaId IN (
+		SELECT
+		t_area.ParentId
+		FROM
+		t_area
+		WHERE
+		t_area.ParentId = #{areaId}
+		)
+		)
+		)
+		)
+	</select>
+
+	<select id="getPartTenants" resultType="com.hotel.pojo.User">
+		SELECT
+			*
+		FROM
+			t_user
+		WHERE
+			t_user.Id IN (
+				SELECT
+					t_userrole.UserId
+				FROM
+					t_userrole
+				WHERE
+					t_userrole.UserRoleTypeId = 2
+				AND t_userrole.Id in (
+					SELECT
+						t_authorization.UserRoleId
+					FROM
+						t_authorization
+					WHERE
+						t_authorization.AreaId = #{areaId}
+
+						or t_authorization.AreaId IN (
+							SELECT
+								t_area.ParentId
+							FROM
+								t_area
+							WHERE
+								t_area.ParentId = #{areaId}
+						)
+				)
+			)
+		ORDER BY t_user.Id desc LIMIT #{start},#{limit}
+	</select>
+	<select id="getPartOwners" resultType="com.hotel.pojo.User">
+		SELECT
+		*
+		FROM
+		t_user
+		WHERE
+		t_user.Id IN (
+		SELECT
+		t_userrole.UserId
+		FROM
+		t_userrole
+		WHERE
+		t_userrole.UserRoleTypeId = 1
+		AND t_userrole.Id in (
+		SELECT
+		t_authorization.UserRoleId
+		FROM
+		t_authorization
+		WHERE
+		t_authorization.AreaId = #{areaId}
+
+		or t_authorization.AreaId IN (
+		SELECT
+		t_area.ParentId
+		FROM
+		t_area
+		WHERE
+		t_area.ParentId = #{areaId}
+		)
+		)
+		)
+		ORDER BY t_user.Id desc LIMIT #{start},#{limit}
+	</select>
+
+
+	<select id="getUserById" resultType="com.hotel.pojo.User">
+		SELECT t_user.*,t_userRole.UserRoleTypeId FROM t_user,t_userRole WHERE t_user.Id=t_userRole.UserId AND t_user.Id=#{id}
+	</select>
+
+	<insert id="insert">
+		INSERT INTO t_user (Id,RealName,UserName,PassWord,Sex,TelPhone,Email,Creator,CreateDate,OperateDate,UserStateId) VALUES(#{id},#{realName},#{userName},#{sex},#{telPhoe},#{email},#{creator},#{createDate},#{operateDate},#{userSateId})
+	</insert>
+</mapper>

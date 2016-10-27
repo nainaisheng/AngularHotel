@@ -1,0 +1,145 @@
+<div class="bg-light lter b-b wrapper-sm">
+    <h1 class="m-n font-thin h5 my-rooms ">
+        您当前所在的位置：
+        <a ui-sref="app.system.admin" class="my-address">管理员管理</a>
+        &nbsp;<i class="fa fa-lg fa-angle-right"></i>&nbsp;
+        <a ui-sref="app.system.addAdmin" class="my-address">添加管理员</a>
+    </h1>
+</div>
+<div class="wrapper-md">
+    <div class="panel panel-default text-center" ng-controller="AddAdminCtrl">
+        <form name="form" style="border: 1px solid green; padding: 10px; " class="text-center">
+            <div class="form-group">
+                <label class="my-label">
+                    管理员等级：
+                    <select name="admin" ng-init="userRoleTypeId = 3" ng-model="userRoleTypeId" ng-change="showArea()" style="padding: 5px;">
+                        <option value="3">超级管理员</option>
+                        <option value="4">区域管理员</option>
+                    </select>
+                    <span style="color: red;">*</span>
+                </label>
+                <span style="color: red;">{{errorMessage1}}</span>
+            </div>
+            <div class="form-group" style="margin-left: 20px;">
+                <label style=" margin-right: 10px; " class="my-label">
+                    省份：
+                    <select name="province" ng-init="provinceId = 'aaa'" ng-model="provinceId" ng-change="loadCity(provinceId)" style="padding: 5px;" ng-disabled="flag" >
+                        <option value="aaa">请选择</option>
+                        <option ng-repeat="area in areas" value="{{area.id}}">{{area.areaName}}</option>
+                    </select>
+                </label>
+
+                <label style="margin-right: 10px; " class="my-label">
+                    市/区:
+                    <select name="city" ng-init="cityId = 'bbb'" ng-model="cityId" ng-change="showCity(cityId)" style="padding: 5px;" ng-disabled="flag">
+                        <option value="bbb">请选择</option>
+                        <option ng-repeat="smallArea in smallAreas" value="{{smallArea.id}}">{{smallArea.areaName}}</option>
+                    </select>
+                    <span style="color: red;" ng-show="userRoleTypeId == 4">*</span>
+                </label>
+                <span style="color: red;">{{errorMessage}}</span>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-5 control-label no-padding-right text-right my-label">用户名：</label>
+                <div class="col-sm-3 my-input-wrapper">
+                    <input type="text" class="form-control" placeholder="请输入用户名"  required ng-model="user.userName">
+                    <span>*</span>
+                </div>
+                <div style="clear: both;"></div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label no-padding-right text-right my-label">真实姓名：</label>
+                <div class="col-sm-3 my-input-wrapper">
+                    <input type="text" class="form-control" placeholder="请输入真实姓名"  ng-model="user.realName" required>
+                    <span>*</span>
+                </div>
+                <div style="clear: both;"></div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label no-padding-right text-right my-label">密码：</label>
+                <div class="col-sm-3 my-input-wrapper">
+                    <input type="password" name="newPwd" class="form-control" placeholder="请输入密码"  ng-model="user.password" required>
+                    <span>*</span>
+                </div>
+                <div style="clear: both;"></div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label no-padding-right text-right my-label">确认密码：</label>
+                <div class="col-sm-3 my-input-wrapper">
+                    <input type="password" name="againPwd" class="form-control" placeholder="请再次输入密码"  ng-model="passwordAgain" required>
+                    <span>*</span>
+                </div>
+                <div style="clear: both;"></div>
+            </div>
+                <span style="color: red;" ng-if="(user.password != passwordAgain) && form.againPwd.$dirty">两次密码输入不一致</span>
+            <div class="form-group">
+                <label class="col-sm-5 control-label no-padding-right text-right my-label">性别：</label>
+                <div class="col-sm-3 my-input-wrapper">
+                    <select  class="form-control"  ng-model="user.sex">
+                        <option value="请选择">请选择</option>
+                        <option value="女">女</option>
+                        <option value="男">男</option>
+                    </select>
+                    <span>*</span>
+                </div>
+                <div style="clear: both;"></div>
+            </div>
+            <div class="form-group my-input-wrapper">
+                <label class="col-sm-5 control-label no-padding-right text-right my-label">电话：</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" placeholder="请输入电话"  ng-model="user.telPhone" required>
+                    <span>*</span>
+                </div>
+                <div style="clear: both;"></div>
+            </div>
+            <div class="form-group my-input-wrapper">
+                <label class="col-sm-5 control-label no-padding-right text-right my-label">邮箱：</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" placeholder="请输入邮箱"  ng-model="user.email" required>
+                    <span>*</span>
+                </div>
+                <div style="clear: both;"></div>
+            </div>
+
+            <div class="col-sm-12">
+
+                <button type="reset" class="btn btn-default"  ng-click="reset()">
+                    <i class="fa fa-close ace-icon bigger-110"></i>
+                    取消
+                </button>
+                <button type="submit" class="btn btn-primary" ng-click="submit()" ng-disabled="form.$invalid">
+                    <i class="fa fa-check ace-icon bigger-110"></i>
+                    保存
+                </button>
+            </div>
+            <div style="clear: both;"></div>
+        </form>
+    </div>
+    <!--添加成功提示框-->
+    <div>
+        <script type="text/ng-template" id="addEnd.html" >
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    提示
+                    <span class="pull-right my-cancel">
+                                <i class="fa fa-times bigger-120 fa-lg" ng-click="cancel()"></i>
+                            </span>
+                </h4>
+
+            </div>
+            <div class="modal-body">
+                <div class="my-modal-content">
+                    <!--<i class="fa fa-info-circle fa-3x text-warning warning-icon"></i>-->
+                    <i class="fa fa-smile-o fa-3x text-success" ng-if="flag === 1"></i>
+                    <i class="fa fa-frown-o fa-3x text-warning" ng-if="flag === 2"></i>
+                    &nbsp;&nbsp;{{message}}
+                </div>
+
+            </div>
+            <div class="modal-footer info-modal-footer">
+                <button class="btn btn-primary" ng-click="ok()">确定</button>
+            </div>
+        </script>
+    </div>
+</div>

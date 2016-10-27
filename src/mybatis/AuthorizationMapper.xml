@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hotel.mapper.AuthorizationMapper">
+<insert id="insertAuthorization" parameterType="com.hotel.pojo.Authorization">
+    INSERT INTO t_authorization (Creator,CreateDate,OperateDate,UserRoleId,AreaId) VALUES(#{creator},#{createDate},#{operateDate},#{userRoleId},#{areaId})
+</insert>
+
+
+<delete id="deleteAuthorizations" parameterType="java.lang.String">
+    DELETE
+FROM
+	t_authorization
+WHERE
+	t_authorization.UserRoleId IN (
+		SELECT
+			t_userrole.id
+		FROM
+			t_userrole
+		WHERE
+			t_userrole.UserId IN
+    <foreach collection="array" item="id" open="(" separator="," close=")">
+        #{id}
+    </foreach>
+	)
+</delete>
+
+	<update id="updateAdminArea" parameterType="com.hotel.pojo.User">
+		UPDATE hotel.t_authorization SET AreaId=#{areaId} WHERE UserRoleId = (SELECT t_userrole.Id FROM hotel.t_userrole WHERE  t_userrole.UserId=#{id})
+	</update>
+
+</mapper>

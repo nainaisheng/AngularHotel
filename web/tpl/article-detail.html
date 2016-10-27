@@ -1,0 +1,18 @@
+<div class="bg-light lter b-b wrapper-sm">
+    <h1 class="m-n font-thin h5 my-rooms ">
+        您当前所在的位置：
+        <a ui-sref="app.articles.areaArticles" class="my-address">地区图片</a>
+        &nbsp;<i class="fa fa-lg fa-angle-right"></i>&nbsp;
+        <a ui-sref="app.articles.article" class="my-address">文章详情</a>
+    </h1>
+</div>
+<div class="wrapper-md" ng-controller="FetchArticleCtrl">
+    <div class="panel panel-default" style="padding: 10px; text-align: center;">
+        {{article.id}}
+        <h2>{{article.title}}</h2>
+        {{article.creator}}
+        {{article.area.areaName}}
+        {{article.createDate}}
+        {{article.content}}
+    </div>
+</div>
