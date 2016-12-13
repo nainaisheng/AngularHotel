@@ -70,6 +70,7 @@ public class ArticleServiceImpl implements ArticleService {
         paramMap.put("areaId",areaId);
         Area area = areaMapper.getAreaById(areaId);
         count = articleMapper.getPartArticleCount(paramMap);
+        pager.setTotalCount(count);
         if (count>0){
             paramMap.put("start",pager.getStart());
             paramMap.put("limit",pager.getLength());

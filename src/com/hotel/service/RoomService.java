@@ -24,4 +24,9 @@ public interface RoomService {
     Room getRoomInfoById(String id);
 
     int deleteRoomsById(Map<String, String[]> roomsId);
+
+    boolean updateRoomState(Room room);
+
+    List<Room> getRoomByOwnerId(Pager<Room> pager, HashMap<String, Object> paramMap);
+
 }

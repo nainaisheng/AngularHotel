@@ -15,4 +15,5 @@ import com.hotel.pojo.HomeDisplay;
 public interface IndexService {
     HomeDisplay loadingAllDate();
 
+    HomeDisplay loadingPartInfo(String id);
 }

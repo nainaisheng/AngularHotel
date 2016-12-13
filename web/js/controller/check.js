@@ -1,16 +1,18 @@
 'use strict';
 
 app.controller('CheckCtrl',
-    function ($scope, $resource, DTOptionsBuilder, DTColumnDefBuilder,DTColumnBuilder, $http, DTDefaultOptions, $modal, $log, $state) {
+    function ($scope, $resource, $http,  $modal, $log) {
     // console.log(DTOptionsBuilder);
     // console.log(DTColumnDefBuilder);
         $scope.rooms = [];
+
+        $scope.orderProp = 'price';
 
 
 
         $scope.start = 0;
         $scope.maxSize = 10;
-        $scope.totalItems = 99;
+        $scope.totalItems = 0;
         $scope.currentPage = 1;
         $scope.pager = {
             draw: $scope.currentPage,
@@ -32,6 +34,15 @@ app.controller('CheckCtrl',
                     console.log(data);
                     $scope.rooms = data.data;
                     $scope.totalItems = data.recordsTotal;
+                    angular.forEach($scope.rooms, function (room) {
+                        if(room.roomState == 1){
+                            room.type = true;//通过
+                            room.typeName = '通过';
+                        }else{
+                            room.type = false;//未通过
+                            room.typeName = '未通过';
+                        }
+                    })
                 })
                 .error(function () {
                     console.log('请求失败');
@@ -107,24 +118,91 @@ app.controller('CheckCtrl',
         console.log($scope.selected);
     };
 
+    $scope.changeState = function (id, type) {
+        console.log(id);
+        console.log(type);
+        if(type == true){
+           var state = 1;
+        }else{
+            state = 0;
+        }
+        console.log(state);
+        $http({
+            url: '/room/edit',//修改房间状态的路径
+            method: 'POST',
+            data: {
+                'roomState': state,
+                'id': id
+            }
+        })
+            .success(function (data) {
+                if(data.resultCode == 'success'){
+                   init();
+                }else{
+                    console.log('修改失败');
+                }
+            })
+            .error(function () {
+               console.log('修改失败');
+            })
+    };
+
 
 
     //编辑确认框
-    $scope.editSelected = function (id) {
-        // if($scope.selected.length == 0){
-        //     $scope.message = "请选择一条数据！";
-        //     $scope.flag = 1;
-        //     $scope.open('myModalContent.html', 'ModalInstanceCtrl', 'sm');
-        // }else if($scope.selected.length > 1){
-        //     $scope.flag = 1;
-        //     $scope.message = "只能选择一条数据！";
-        //     $scope.open('myModalContent.html', 'ModalInstanceCtrl', 'sm');
-        // }else {
-        //     //跳转到编辑页面
-        // }
-        //编辑页面
-        console.log($scope.flag);
-        console.log($scope.message);
+    $scope.editSelected = function (id, state) {
+        var url = '/room/edit';
+        var modalInstance = $modal.open({
+            templateUrl: 'editRoom.html',
+            controller: 'ModalInstanceCtrl10',
+            size: 'sm',
+            resolve: {
+                id: function () {
+                    return id;
+                },
+                url: function () {
+                    return url;
+                },
+                state: function () {
+                    return state;
+                }
+            }
+
+        });
+
+        modalInstance.result.then(function (flag) {
+            console.log(flag);
+            var modalInstance = $modal.open({
+                templateUrl: 'editEnd.html',
+                controller: 'ModalInstanceCtrl7',
+                size: 'sm',
+                resolve: {
+                    flag: function () {
+                        return flag
+                    }
+                }
+
+            });
+
+
+            modalInstance.result.then(function (flag) {
+
+                if(flag === 1){
+                    console.log("修改成功");
+                    init();
+                }
+                console.log("结束！");
+            },function (flag) {
+                if(flag === 1){
+                    console.log("修改成功");
+                    init();
+                }
+                $log.info('Modal dismissed at :' + new Date());
+            });
+            // $scope.dtInstance.reloadData();
+        },function () {
+            $log.info('Modal dismissed at :' + new Date());
+        });
     };
 
 

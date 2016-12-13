@@ -71,4 +71,16 @@ public class OrderServiceImpl implements OrderService{
         List<Order> orderList = this.getPartOutStandingOrder(pager, paramMap);
         return orderList;
     }
+
+    @Override
+    public List<Order> getCanceledOrder(Pager<Order> pager, HashMap<String, Object> paramMap) {
+
+        return  this.getOutstandingOrder(pager,paramMap);
+    }
+
+    @Override
+    public List<Order> getPartCanceledOrder(Pager<Order> pager, HashMap<String, Object> paramMap) {
+        return this.getPartOutStandingOrder(pager,paramMap);
+    }
+
 }

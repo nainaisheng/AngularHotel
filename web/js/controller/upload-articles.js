@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('UploadArticlesCtrl',function ($scope, $http, $modal, $log) {
+app.controller('UploadArticlesCtrl',function ($scope, $http, $modal, $log, $state) {
 
 
     $scope.areas = [];
@@ -91,9 +91,14 @@ app.controller('UploadArticlesCtrl',function ($scope, $http, $modal, $log) {
             }
         });
 
-        modalInstance.result.then(function () {
-
-        },function () {
+        modalInstance.result.then(function (flag) {
+            if(flag == 1){
+                $state.go('app.articles.areaArticles');
+            }
+        },function (flag) {
+            if(flag == 1){
+                $state.go('app.articles.areaArticles');
+            }
             $log.info('Modal dismissed at :' + new Date());
         });
     };

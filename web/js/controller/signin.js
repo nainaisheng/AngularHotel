@@ -32,6 +32,8 @@ app.controller('SigninFormCtrl',['$scope', '$http', '$state', '$localStorage', '
             if(data.resultCode === 'success'){
                 $rootScope.$storage.admin = data.object;
                 console.log(data.object);
+                $rootScope.admin = $localStorage.admin;
+                console.log($rootScope.admin);
                 $state.go('app.dashboard');
             }else if(data.resultCode === 'exception'){
                 $scope.authError = '账户异常,登陆失败!';

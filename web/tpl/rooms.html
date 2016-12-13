@@ -52,7 +52,7 @@
         </div>
 
         <div class="wrapper-md">
-            <div class="panel panel-default" style="position: relative;">
+            <div class="panel panel-default" style="position: relative; padding-top: 20px;">
                 <!--<div class="panel-heading">-->
                     <!--房间信息列表-->
 
@@ -67,10 +67,10 @@
                             <!--<i class="fa fa-pencil bigger-120"></i>-->
                             <!--<a href >修改</a>-->
                         <!--</button>-->
-                        <button class="btn box-shadow my-button" ng-click="deleteSelected();">
-                            <i class="fa fa-times bigger-120"></i>
-                            <a href >删除</a>
-                        </button>
+                        <!--<button class="btn box-shadow my-button" ng-click="deleteSelected();">-->
+                            <!--<i class="fa fa-times bigger-120"></i>-->
+                            <!--<a href >删除</a>-->
+                        <!--</button>-->
                         <!--<button class="btn box-shadow my-button" ng-click="add()">-->
                             <!--<i class="fa fa-floppy-o bigger-120"></i>-->
                             <!--<a href >增加</a>-->
@@ -79,79 +79,53 @@
                             <!--<i class="fa fa-eye bigger-120"></i>-->
                             <!--<a href>查看</a>-->
                         <!--</button>-->
+                        <div class="col-xs-8">
+                            <div >
+                                <label class="col-xs-2 control-label no-padding-right my-label no-padding-left text-right" >查询：</label>
+                                <div class="col-xs-2 no-padding-left">
+                                    <input type="text" class="form-control" placeholder="请输入..." ng-model="$ctrl.query">
+                                </div>
+                                <label class="col-xs-2 control-label no-padding-right my-label no-padding-left text-right" >排序：</label>
+                                <div class="col-xs-2 no-padding-left">
+                                    <select ng-model="orderProp" class="form-control">
+                                        <option value="price">价格</option>
+                                        <option value="createDate">创建时间</option>
+                                    </select>
+                                </div>
+                                <div style="clear:both;"></div>
+                            </div>
+                        </div>
+                        <div style="clear:both;"></div>
                     </section>
-                    <form class="form-inline">
-                        <!--<table id="table0" class="table row-border hover table-striped dataTables_wrapper form-inline dt-bootstrap" datatable="" dt-options="showCase.dtOptions" dt-columns="showCase.dtColumns" dt-instance="showCase.dtInstance">-->
-                            <!--<thead>-->
+                    <form class="form-inline" style="padding-top: 15px;">
 
-                                <!--<tr>-->
-                                    <!--<th class="text-center">-->
-                                        <!--<span >-->
-                                            <!--<input type="checkbox" class="my-checkbox" ng-model="master" ng-click="all(master,rooms)">-->
-                                        <!--</span>-->
-                                    <!--</th>-->
-                                    <!--<th class="text-center">序号</th>-->
-                                    <!--<th class="text-center">房间名</th>-->
-                                    <!--<th class="text-center">价格</th>-->
-                                    <!--<th class="text-center">详细地址</th>-->
-                                    <!--<th class="text-center">房主</th>-->
-                                    <!--<th class="text-center">创建时间</th>-->
-                                    <!--<th class="text-center"></th>-->
-                                <!--</tr>-->
-                            <!--</thead>-->
-                            <!--<tbody>-->
-                            <!--<tr ng-repeat="room in rooms" on-finish-render>-->
-                                <!--<td class="text-center">-->
-                                    <!--<span>-->
-                                        <!--<input type="checkbox" class="my-checkbox" name="selected" ng-model="x" ng-checked="master" ng-click="select(room.id,x)">-->
-                                    <!--</span>-->
-                                <!--</td>-->
-                                <!--<td class="text-center"></td>-->
-                                <!--<td class="text-center">{{room.roomName}}</td>-->
-                                <!--<td class="text-center">￥{{room.price}}/晚</td>-->
-                                <!--<td class="text-center">{{room.address}}</td>-->
-                                <!--<td class="text-center">{{room.creator}}</td>-->
-                                <!--<td class="text-center">{{room.createDate}}</td>-->
-                                <!--<td class="text-center">-->
-                                    <!--<a ui-sref="app.room({roomId: room.id})" class="room-de">-->
-                                        <!--<button class="btn btn-xs" type="button"><i class="fa fa-eye text-success fa-2x"></i></button>-->
-                                    <!--</a>-->
-                                    <!--<a ui-sref="app.edit({roomId: room.id})" class="room-de">-->
-                                        <!--<button class="btn btn-xs" type="button" ng-click="editSelected(room.id)"><i class="fa fa-edit text-info fa-2x"></i></button>-->
-                                    <!--</a>-->
-                                <!--</td>-->
-                            <!--</tr>-->
-
-                            <!--</tbody>-->
-                            <!--<thead></thead>-->
-                            <!--<tbody></tbody>-->
-
-                        <!--</table>-->
                         <table class="table row-border hover table-striped dataTables_wrapper form-inline">
                             <thead>
 
                             <tr style="font-size: 16px;">
-                                <th class="text-center">
-                                        <span >
-                                            <input type="checkbox"  ng-model="master" ng-click="all(master,rooms)">
-                                        </span>
-                                </th>
+                                <!--<th class="text-center">-->
+                                        <!--<span >-->
+                                            <!--<input type="checkbox"  ng-model="master" ng-click="all(master,rooms)">-->
+                                        <!--</span>-->
+                                <!--</th>-->
                                 <th class="text-center">房间编号</th>
                                 <th class="text-center">房间名</th>
                                 <th class="text-center">价格</th>
                                 <th class="text-center">详细地址</th>
                                 <th class="text-center">房主</th>
                                 <th class="text-center">创建时间</th>
+                                <th class="text-center">审核状态</th>
+                                <th class="text-center">审核</th>
                                 <th class="text-center">操作</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="room in rooms" on-finish-render>
-                                <td class="text-center">
-                                    <span>
-                                        <input type="checkbox" class="my-checkbox" name="selected" ng-model="x" ng-checked="master" ng-click="select(room.id,x)">
-                                    </span>
-                                </td>
+                            <tr ng-repeat="room in rooms | filter: $ctrl.query | orderBy: orderProp" on-finish-render>
+                                <!--<td class="text-center">-->
+                                    <!--<span>-->
+                                        <!--<input type="checkbox" class="my-checkbox" name="selected" ng-model="x" ng-checked="master" ng-click="select(room.id,x)">-->
+                                    <!--</span>-->
+                                <!--</td>-->
                                 <!--<td class="text-center"></td>-->
                                 <td class="text-center">{{room.id}}</td>
                                 <td class="text-center">{{room.roomName}}</td>
@@ -159,12 +133,16 @@
                                 <td class="text-center">{{room.address}}</td>
                                 <td class="text-center">{{room.creator}}</td>
                                 <td class="text-center">{{room.createDate}}</td>
+                                <td class="text-center">{{room.typeName}}</td>
+                                <td class="text-center">
+                                    <label class="i-switch bg-info">
+                                        <input type="checkbox" ng-model="room.type" ng-change="changeState(room.id, room.type)">
+                                        <i></i>
+                                    </label>
+                                </td>
                                 <td class="text-center">
                                     <a ui-sref="app.room({roomId: room.id})" class="room-de">
                                         <button class="btn btn-xs" type="button"><i class="fa fa-eye text-success fa-2x"></i></button>
-                                    </a>
-                                    <a ui-sref="app.edit({roomId: room.id})" class="room-de">
-                                        <button class="btn btn-xs" type="button" ng-click="editSelected(room.id)"><i class="fa fa-edit text-info fa-2x"></i></button>
                                     </a>
                                 </td>
                             </tr>
@@ -172,8 +150,10 @@
                             </tbody>
                         </table>
                         <div class="text-center">
+                            <div style="float: left; padding: 20px 0 0 36px;">共{{totalItems}}条数据</div>
                             <pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize"
                                         previous-text="上一页" next-text="下一页" ng-change="getData()"></pagination>
+                            <div style="clear: both;"></div>
                         </div>
 
                     </form>
@@ -244,66 +224,38 @@
                             </form>
                         </script>
                     </div>
-                    <!--修改用户弹窗-->
+                    <!--修改房间弹窗-->
                     <div>
-                        <script type="text/ng-template" id="editUser.html">
+                        <script type="text/ng-template" id="editRoom.html">
                             <div class="modal-header">
                                 <h4 class="modal-title">
-                                    修改用户
+                                    修改房间状态
                                     <span class="pull-right my-cancel">
                                 <i class="fa fa-times bigger-120 fa-lg" ng-click="cancel()"></i>
                             </span>
                                 </h4>
                             </div>
                             <form class="form-horizontal" name="form" class="form-validation">
-                                <div class="modal-body admin-modal" style="height: 250px">
+                                <div class="modal-body admin-modal text-center">
                                     <div class="my-modal-content" >
-                                        <div class="row" style="padding-top: 10px;">
-                                            <div class="form-group" >
-                                                <label class="col-sm-4 control-label no-padding-right">账户</label>
-                                                <div class="col-sm-5">
-                                                    <input type="text" class="form-control" placeholder="请输入账户" value="{{user.username}}" disabled>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-4 control-label no-padding-right">姓名</label>
-                                                <div class="col-sm-5">
-                                                    <input type="text" class="form-control" placeholder="请输入姓名" value="{{user.name}}" ng-model="newAdmin.name" required>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-4 control-label no-padding-right">性别</label>
-                                                <div class="col-sm-5">
-                                                    <select  class="form-control" ng-model="user.sex">
-                                                        <option value="女">女</option>
-                                                        <option value="男">男</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-4 control-label no-padding-right">地址</label>
-                                                <div class="col-sm-5">
-                                                    <input type="text" class="form-control" placeholder="请输入地址" value="{{user.address}}" ng-model="user.address" required>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-4 control-label no-padding-right">电话</label>
-                                                <div class="col-sm-5">
-                                                    <input type="text" class="form-control" placeholder="请输入地址" value="{{user.telephone}}" ng-model="user.telephone" required>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <label style=" margin-right: 10px; " class="my-label">状态:
+                                            <select style="padding: 5px;" ng-model="state">
+                                                <option value="1">通过</option>
+                                                <option value="0">未通过</option>
+                                            </select>
+                                        </label>
                                     </div>
 
                                 </div>
                                 <div class="modal-footer" style="text-align: center;">
-                                    <button type="submit" class="btn btn-primary" ng-click="ok()" ng-disabled="form.$invalid">
-                                        <i class="fa fa-check ace-icon bigger-110"></i>
-                                        修改
-                                    </button>
+
                                     <button type="reset" class="btn btn-default"  ng-click="cancel()">
                                         <i class="fa fa-close ace-icon bigger-110"></i>
                                         关闭
+                                    </button>
+                                    <button class="btn btn-primary" ng-click="ok()" ng-disabled="form.$invalid">
+                                        <i class="fa fa-check ace-icon bigger-110"></i>
+                                        修改
                                     </button>
                                 </div>
                             </form>
@@ -336,9 +288,9 @@
                             </div>
                         </script>
                     </div>
-                    <!--删除成功弹窗-->
+                    <!--修改成功弹窗-->
                     <div>
-                        <script type="text/ng-template" id="removeEnd.html" >
+                        <script type="text/ng-template" id="editEnd.html" >
                             <div class="modal-header">
                                 <h4 class="modal-title">
                                     提示

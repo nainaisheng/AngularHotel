@@ -10,6 +10,7 @@ app.controller('AddAdminCtrl', function ($scope, $http , $modal, $log) {
     $scope.areaId = '';
     $scope.areas = [];
     $scope.smallAreas = [];
+    $scope.sex = -1;
 
     var getProvince = function () {
         $http.get('/area/provinces')
@@ -55,6 +56,8 @@ app.controller('AddAdminCtrl', function ($scope, $http , $modal, $log) {
                     console.log($scope.smallAreas);
                 }else{
                     console.log('请求失败');
+                    $scope.smallAreas = [];
+                    $scope.cityId = 'bbb';
                 }
 
             })
@@ -65,6 +68,7 @@ app.controller('AddAdminCtrl', function ($scope, $http , $modal, $log) {
 
     $scope.reset = function () {
         $scope.user = {};
+        $scope.passwordAgain = '';
         console.log($scope.user);
     };
 
@@ -86,8 +90,17 @@ app.controller('AddAdminCtrl', function ($scope, $http , $modal, $log) {
         }else{
             $scope.errorMessage = '';
         }
+
+        if($scope.sex == -1){
+            console.log($scope.sex);
+            $scope.errorMessage = '请选择性别';
+            return;
+        }else{
+            $scope.errorMessage = '';
+        }
         $scope.user.userRoleTypeId = $scope.userRoleTypeId;
         $scope.user.areaId = $scope.areaId;
+        $scope.user.sex = $scope.sex;
         console.log($scope.user);
         $http({
             url: '/admin/add',
@@ -122,9 +135,27 @@ app.controller('AddAdminCtrl', function ($scope, $http , $modal, $log) {
             }
         });
 
-        modalInstance.result.then(function () {
+        modalInstance.result.then(function (flag) {
+            if(flag == 1){
+                $scope.user = {};
+                $scope.passwordAgain = null;
+                $scope.userRoleTypeId = 3;
+                $scope.provinceId = 'aaa';
+                $scope.cityId = 'bbb';
+                $scope.smallAreas = [];
+                $scope.sex = -1;
 
-        },function () {
+            }
+        },function (flag) {
+            if(flag == 1){
+                $scope.user = {};
+                $scope.passwordAgain = null;
+                $scope.userRoleTypeId = 3;
+                $scope.provinceId = 'aaa';
+                $scope.cityId = 'bbb';
+                $scope.smallAreas = [];
+                $scope.sex = -1;
+            }
                 $log.info('Modal dismissed at :' + new Date());
         });
     };

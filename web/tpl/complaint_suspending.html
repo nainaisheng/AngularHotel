@@ -1,0 +1,95 @@
+<div class="bg-light lter b-b wrapper-sm">
+    <h1 class="m-n font-thin h5 my-rooms">
+        您现在所在的位置：<a ui-sref="app.complaints.suspending" class="my-address">待处理投诉列表</a>
+    </h1>
+</div>
+<div class="wrapper-md">
+    <div class="panel panel-default" style="position: relative; padding-top: 20px;">
+        <!--<div class="panel-heading">-->
+        <!--房主信息列表-->
+        <!--</div>-->
+        <div class="table-responsive "  ng-controller="ComplaintSuspendingCtrl" >
+            <section >
+                <!--<button class="btn box-shadow my-button" ng-click="editSelected();">-->
+                <!--<i class="fa fa-pencil bigger-120"></i>-->
+                <!--<a href >修改</a>-->
+                <!--</button>-->
+                <!--<button class="btn box-shadow my-button" ng-click="deleteSelected();">-->
+                <!--<i class="fa fa-times bigger-120"></i>-->
+                <!--<a href >删除</a>-->
+                <!--</button>-->
+                <!--<button class="btn box-shadow my-button" ng-click="addUser()">-->
+                <!--<i class="fa fa-floppy-o bigger-120"></i>-->
+                <!--<a href >增加</a>-->
+                <!--</button>-->
+                <!--<button class="btn box-shadow my-button">-->
+                <!--<i class="fa fa-eye bigger-120"></i>-->
+                <!--<a href>查看</a>-->
+                <!--</button>-->
+                <div class="col-xs-8">
+                    <div >
+                        <label class="col-xs-2 control-label no-padding-right my-label no-padding-left text-right" >查询：</label>
+                        <div class="col-xs-2 no-padding-left">
+                            <input type="text" class="form-control" placeholder="请输入..." ng-model="$ctrl.query">
+                        </div>
+                        <label class="col-xs-2 control-label no-padding-right my-label no-padding-left text-right" >排序：</label>
+                        <div class="col-xs-2 no-padding-left">
+                            <select ng-model="orderProp" class="form-control">
+                                <option value="checker">受理人</option>
+                                <option value="userName">投诉人</option>
+                                <option value="createDate">投诉时间</option>
+                            </select>
+                        </div>
+                        <div style="clear:both;"></div>
+                    </div>
+                </div>
+                <div style="clear:both;"></div>
+            </section>
+            <form class="form-inline" style="padding-top: 15px;">
+                <table class="table row-border hover table-striped dataTables_wrapper form-inline" style="width: 90%; margin: 0 auto;">
+                    <thead>
+
+                    <tr>
+                        <!--<th class="text-center">-->
+                        <!--<span >-->
+                        <!--<input type="checkbox" class="my-checkbox" ng-model="master" ng-click="all(master,users)">-->
+                        <!--</span>-->
+                        <!--</th>-->
+                        <th class="text-center">标题</th>
+                        <th class="text-center">投诉人</th>
+                        <th class="text-center">投诉时间</th>
+                        <th class="text-center">投诉房间</th>
+                        <th class="text-center">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in complaints | filter: $ctrl.query | orderBy: orderProp">
+                        <!--<td class="text-center">-->
+                        <!--<span>-->
+                        <!--<input type="checkbox" class="my-checkbox" name="selected" ng-model="x" ng-checked="master" ng-click="select(item.id,x)">-->
+                        <!--</span>-->
+                        <!--</td>-->
+                        <td class="text-center">{{item.title}}</td>
+                        <td class="text-center">{{item.user.userName}}</td>
+                        <td class="text-center">{{item.createDate}}</td>
+                        <td class="text-center">{{item.room.roomName}}</td>
+                        <td class="text-center">
+                            <a ui-sref="app.acceptComplaint({complaintId: item.id})" class="accept">
+                                受理
+                            </a>
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+                <div class="text-center">
+                    <div style="float: left; padding: 20px 0 0 36px;">共{{totalItems}}条数据</div>
+                    <pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize"
+                                previous-text="上一页" next-text="下一页" ng-change="getData()"></pagination>
+                    <div style="clear: both;"></div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

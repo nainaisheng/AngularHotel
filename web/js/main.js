@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('app')
-    .controller('AppCtrl',['$scope', '$localStorage', '$window',
-        function ($scope, $localStorage, $window) {
+    .controller('AppCtrl',['$scope', '$localStorage', '$window', '$rootScope', '$state',
+        function ($scope, $localStorage, $window, $rootScope, $state) {
             // add 'ie' classes to html
             var isIE = !!navigator.userAgent.match(/MSIE/i);
             isIE && angular.element($window.document.body).addClass('ie');
@@ -60,7 +60,10 @@ angular.module('app')
             }, true);
 
 
+
+
+
         }
 
 
-])
+]);

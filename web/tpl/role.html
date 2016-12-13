@@ -84,8 +84,10 @@
                     </tbody>
                 </table>
                 <div class="text-center">
+                    <div style="float: left; padding: 20px 0 0 36px;">共{{totalItems}}条数据</div>
                     <pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize"
                                 previous-text="上一页" next-text="下一页" ng-change="getData()"></pagination>
+                    <div style="clear: both;"></div>
                 </div>
             </form>
         </div>

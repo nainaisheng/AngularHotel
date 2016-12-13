@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('EditArticleCtrl', function ($scope, $http, $stateParams, $modal, $log) {
+app.controller('EditArticleCtrl', function ($scope, $http, $stateParams, $modal, $log, $state) {
 
     var id = $stateParams.articleId;
 
@@ -40,9 +40,14 @@ app.controller('EditArticleCtrl', function ($scope, $http, $stateParams, $modal,
             }
         });
 
-        modalInstance.result.then(function () {
-
-        },function () {
+        modalInstance.result.then(function (flag) {
+            if(flag == 1){
+                $state.go('app.articles.areaArticles');
+            }
+        },function (flag) {
+            if(flag == 1){
+                $state.go('app.articles.areaArticles');
+            }
             $log.info('Modal dismissed at :' + new Date());
         });
     };

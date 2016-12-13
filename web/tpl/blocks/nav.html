@@ -50,6 +50,39 @@
                 <i class="fa fa-fw fa-angle-right text"></i>
                 <i class="fa fa-fw fa-angle-down text-active"></i>
             </span>
+            <i class="fa fa-envelope-o"></i>
+            <!--<i class="fa fa-user"></i>-->
+            <span class="font-bold">投诉管理</span>
+        </a>
+        <ul class="nav nav-sub dk">
+            <li class="nav-sub-header">
+                <a href>
+                    <span>投诉管理</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="app.complaints.suspending">
+                    <span>待处理投诉</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="app.complaints.handing">
+                    <span>处理中投诉</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="app.complaints.solved">
+                    <span>已处理投诉</span>
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href class="auto">
+            <span class="pull-right text-muted">
+                <i class="fa fa-fw fa-angle-right text"></i>
+                <i class="fa fa-fw fa-angle-down text-active"></i>
+            </span>
             <i class="fa fa-tasks fa-fw"></i>
             <span class="font-bold">订单管理</span>
         </a>
@@ -67,6 +100,11 @@
             <li ui-sref-active="active">
                 <a ui-sref="app.orders.completed">
                     <span>已完成订单</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="app.orders.cancelled">
+                    <span>已取消订单</span>
                 </a>
             </li>
         </ul>

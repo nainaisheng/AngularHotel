@@ -161,7 +161,9 @@ app.controller('ModalInstanceCtrl4', function ($scope, $http, $modalInstance, $w
                         $scope.smallAreas = data.object;
                         console.log($scope.smallAreas);
                     }else{
-                        console.log('加载失败');
+                        console.log('请求失败');
+                        $scope.smallAreas = [];
+                        $scope.cityId = 'bbb';
                     }
                 })
                 .error(function () {
@@ -187,7 +189,6 @@ app.controller('ModalInstanceCtrl4', function ($scope, $http, $modalInstance, $w
              var areasId = [$scope.areaId];
             console.log(ids);
             console.log(areasId);
-            $scope
             $http({
                 url: '/admin/areaUpdate',//区域管理员修改负责区域
                 method: 'POST',
@@ -209,6 +210,50 @@ app.controller('ModalInstanceCtrl4', function ($scope, $http, $modalInstance, $w
                     var flag = 2;
                     $modalInstance.close(flag);
                 })
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss();
+        };
+    })
+    .controller('ModalInstanceCtrl9', function ($scope, $modalInstance, url) {
+        $scope.url = url;
+        console.log($scope.url);
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss();
+        };
+    })
+    .controller('ModalInstanceCtrl10', function ($scope,$http, $modalInstance ,id, url, state) {
+        console.log(url);
+        console.log(id);
+
+        $scope.state = state;
+
+        $scope.ok = function () {
+            console.log($scope.state);
+            $http({
+                url: url,//修改房间状态的路径
+                method: 'POST',
+                data: {
+                    'roomState': $scope.state,
+                    'id': id
+                }
+            })
+                .success(function (data) {
+                    if(data.resultCode == 'success'){
+                        var flag = 1;
+                        $modalInstance.close(flag);
+                    }else{
+                        flag = 2;
+                        $modalInstance.close(flag);
+                    }
+                })
+                .error(function () {
+                    var flag = 2;
+                    $modalInstance.close(flag);
+                })
+
         };
 
         $scope.cancel = function () {

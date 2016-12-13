@@ -6,6 +6,9 @@ app.controller('AdminCtrl', function ($scope, $localStorage, $rootScope) {
     $scope.$watch('admin', function (newVal, oldVal) {
         $rootScope.admin = newVal;
         $rootScope.userRoleTypeId = $rootScope.admin.userRoleTypeId;
+        if($rootScope.userRoleTypeId == 4){
+            $rootScope.areaName = $rootScope.admin.area.areaName;
+        }
         console.log($rootScope.userRoleTypeId);
 
     });

@@ -8,7 +8,7 @@
                     您当前所在的位置：
                     <a ui-sref="app.rooms" class="my-address">房间列表</a>
                     &nbsp;<i class="fa fa-lg fa-angle-right"></i>&nbsp;
-                    <a ui-sref="app.rooms.room({roomId: room.id})" class="my-address">{{room.roomName}}</a>
+                    <a ui-sref="app.room({roomId: room.id})" class="my-address">{{room.roomName}}</a>
                 </h1>
             </div>
 
@@ -23,7 +23,7 @@
                         <i class="room-click"  ng-click="setImage(0);setDirection(0);"></i>
                         <div class="my-img">
                             <img ng-src="{{img}}" alt="{{room.name}}" ng-class="{selected: img === image && direct, right: img === image && !direct}"
-                                 ng-repeat="img in room.images" class="room img-responsive"/>
+                                 ng-repeat="img in images" class="room img-responsive"/>
                         </div>
                         <i class="room-click"  ng-click="setImage(1);setDirection(1);"></i>
                     </div>

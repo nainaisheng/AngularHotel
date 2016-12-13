@@ -162,6 +162,12 @@ public class UserSeviceImpl implements UserService{
         return userList;
     }
 
+    /**
+     * f分页获取地区房主
+     * @param pager
+     * @param paramMap
+     * @return
+     */
     @Override
     public List<User> getPartOwners(Pager<User> pager, HashMap<String, Object> paramMap) {
         List<User> userList = null;
@@ -170,13 +176,17 @@ public class UserSeviceImpl implements UserService{
 
             String userId = (String) paramMap.get("userId");
             String areaId = areaMapper.getAreaId(userId);
-            int ownersCount = userMapper.getPartOwnersCount(paramMap);
-            pager.setTotalCount(ownersCount);
             paramMap.put("areaId",areaId);
+            System.out.println(areaId);
+            int ownersCount = userMapper.getPartOwnersCount(paramMap);
+            System.out.println(ownersCount);
+
+            pager.setTotalCount(ownersCount);
             if (ownersCount>0){
                 paramMap.put("start", pager.getStart());
                 paramMap.put("limit", pager.getLength());
                 userList = userMapper.getPartOwners(paramMap);
+                System.out.println(userList);
             }
         }catch (Exception e){
             e.printStackTrace();

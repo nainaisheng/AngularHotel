@@ -5,7 +5,7 @@ app.controller('ManageRoleCtrl',function ($scope, $http, $modal, $log) {
     $scope.userRoleTypeId = 3;//初始化时显示的是超级管理员
     $scope.admins = [];//用来存放获取到的管理员数据(包括超级管理员和区域管理员)
     $scope.url1 = '/superAdmins';
-    $scope.url2 = 'areaAdmins';
+    $scope.url2 = '/areaAdmins';
     $scope.error = '';//用来展示全局错误信息
     $scope.provinceId = 'aaa';
     $scope.cityId = 'bbb';
@@ -15,7 +15,7 @@ app.controller('ManageRoleCtrl',function ($scope, $http, $modal, $log) {
         $scope.admins = [];
         $scope.start = 0;//初始化请求参数
         $scope.maxSize = 10;
-        $scope.totalItems = 99;
+        $scope.totalItems = 0;
         $scope.currentPage = 1;
         $scope.pager = {
             draw: $scope.currentPage,
@@ -43,17 +43,14 @@ app.controller('ManageRoleCtrl',function ($scope, $http, $modal, $log) {
             data: $scope.pager
         })
         .success(function (data) {
-            if(data.resultCode == 'success'){
-                $scope.admins = data.object.data;
-                console.log($scope.admins);
-                $scope.totalItems = data.recordsTotal;
-                for(var i = 0;i < $scope.admins.length; i++){
-                    $scope.selected[i] = $scope.admins[i].id;
-                }
-                console.log($scope.selected);
-            }else{
-                console.log('加载失败！');
+            $scope.admins = data.data;
+            console.log($scope.admins);
+            $scope.totalItems = data.recordsTotal;
+            for(var i = 0;i < $scope.admins.length; i++){
+                $scope.selected[i] = $scope.admins[i].id;
             }
+            console.log($scope.selected);
+
         })
         .error(function () {
             console.log('请求失败！');
@@ -63,6 +60,7 @@ app.controller('ManageRoleCtrl',function ($scope, $http, $modal, $log) {
     getAdmins($scope.url1);//初始化显示超级管理员数据
 
     $scope.loadAdmins = function () {
+        $scope.error = '';
         console.log($scope.userRoleTypeId);
         if($scope.userRoleTypeId == 3){
             init();
@@ -194,7 +192,10 @@ app.controller('ManageRoleCtrl',function ($scope, $http, $modal, $log) {
                     $scope.smallAreas = data.object;
                     console.log($scope.smallAreas);
                 }else{
-                    console.log('加载失败');
+                    console.log('请求失败');
+                    $scope.smallAreas = [];
+                    $scope.cityId = 'bbb';
+
                 }
             })
             .error(function () {

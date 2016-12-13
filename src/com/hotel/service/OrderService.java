@@ -26,4 +26,9 @@ public interface OrderService {
     List<Order> getCompletedOrder(Pager<Order> pager, HashMap<String, Object> paramMap);
 
     List<Order> getPartCompletedOrder(Pager<Order> pager, HashMap<String, Object> paramMap);
+
+    List<Order> getCanceledOrder(Pager<Order> pager, HashMap<String, Object> paramMap);
+
+    List<Order> getPartCanceledOrder(Pager<Order> pager, HashMap<String, Object> paramMap);
+
 }

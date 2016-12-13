@@ -103,4 +103,36 @@ public class RoomController {
         return new Result("fail",Constant.DEAL_FAIL);
     }
 
+    @RequestMapping("/room/edit")
+    @ResponseBody
+    public Result updateRoomState(@RequestBody Room room){
+        boolean result = roomService.updateRoomState(room);
+        if (result){
+            return new Result("success",Constant.DEAL_SUCCESS);
+        }
+        return new Result("fail",Constant.DEAL_FAIL);
+    }
+
+    @RequestMapping("/owner/rooms/{ownerId}")
+    @ResponseBody
+    public DataTableResult<Room> getRoomByOwnerId(@RequestBody Pager<Room> pager,@PathVariable String ownerId,HttpSession session){
+        List<Room> roomList =null;
+        DataTableResult<Room> tableResult = new DataTableResult();
+        User user = (User) session.getAttribute(Constant.USERINFO);
+        HashMap<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("ownerId",ownerId);
+        roomList = roomService.getRoomByOwnerId(pager,paramMap);
+
+        tableResult.setDraw(pager.getDraw());
+        tableResult.setRecordsTotal(pager.getTotalCount());
+        if (roomList!=null&&roomList.size()>0) {
+            tableResult.setRecordsFiltered(roomList.size());
+            tableResult.setData(roomList);
+        }else {
+            tableResult.setRecordsFiltered(0);
+            tableResult.setData(null);
+        }
+        return tableResult;
+    }
+
 }

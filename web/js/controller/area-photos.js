@@ -2,10 +2,12 @@
 
 app.controller('FetchPhotosCtrl', function ($scope, $http, $modal, $log) {
 
+    $scope.orderProp = 'createDate';
+
     $scope.photos = [];
     $scope.start = 0;
     $scope.maxSize = 10;
-    $scope.totalItems = 99;
+    $scope.totalItems = 0;
     $scope.currentPage = 1;
     $scope.pager = {
         draw: $scope.currentPage,
@@ -93,6 +95,27 @@ app.controller('FetchPhotosCtrl', function ($scope, $http, $modal, $log) {
         }
         // $scope.selected = (str.substr(0,str.length-1)).split(',');
         console.log($scope.selected);
+    };
+
+    //展示图片
+    $scope.enlargePhoto = function (url) {
+        console.log('到这了');
+        var modalInstance = $modal.open({
+            templateUrl: 'enlargePhoto.html',
+            controller: 'ModalInstanceCtrl9',
+            size: 'lg',
+            resolve: {
+                url: function () {
+                    return url;
+                }
+            }
+        });
+
+        modalInstance.result.then(function () {
+
+        },function () {
+            $log.info('Modal dismissed at :' + new Date());
+        });
     };
 
     $scope.open = function (template, ctrl, size) {

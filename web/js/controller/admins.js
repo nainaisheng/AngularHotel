@@ -1,11 +1,14 @@
 'use strict';
 
 app.controller('FetchAdminCtrl',
-    function ($scope, $resource , $http, DTDefaultOptions, $modal, $log) {
+    function ($scope, $resource , $http,  $modal, $log) {
+
+        $scope.orderProp = "createDate";
+
         $scope.admins = [];
         $scope.start = 0;
         $scope.maxSize = 10;
-        $scope.totalItems = 99;
+        $scope.totalItems = 0;
         $scope.currentPage = 1;
         $scope.pager = {
             draw: $scope.currentPage,
@@ -22,8 +25,18 @@ app.controller('FetchAdminCtrl',
             })
                 .success(function (data) {
                     console.log(data);
-                    $scope.admins = data.object;
+                    $scope.admins = data.data;
                     $scope.totalItems = data.recordsTotal;
+                    angular.forEach($scope.admins,function (admin) {
+                        console.log(admin);
+                        if(admin.userStateId == 1){
+                            admin.state = '正常';
+                        }else if(admin.userStateId == 2){
+                            admin.state = '冻结';
+                        }else {
+                            admin.state = '异常';
+                        }
+                    });
                 })
                 .error(function () {
                     console.log('请求失败！');

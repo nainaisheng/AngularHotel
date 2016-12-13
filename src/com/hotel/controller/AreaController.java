@@ -4,8 +4,6 @@ import com.hotel.pojo.*;
 import com.hotel.service.AreaService;
 import com.hotel.service.ArticleService;
 import com.hotel.util.*;
-import com.smallchill.core.constant.Const;
-import com.smallchill.core.constant.ConstShiro;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -165,6 +163,12 @@ public class AreaController {
         return result;
     }
 
+    /**
+     * 删除图片
+     * @param photoId
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/photos/delete", method = RequestMethod.POST)
     @ResponseBody
     public Result deletePhoto(@RequestBody String[] photoId,HttpSession session ){
@@ -175,6 +179,12 @@ public class AreaController {
         return new Result("fail",Constant.DEAL_FAIL);
     }
 
+    /**
+     * 获取管理员所在区域
+     * @param id
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/area/{id}")
     @ResponseBody
     public Result getAreaById(@PathVariable String id,HttpSession session){

@@ -1,11 +1,14 @@
 'use strict';
 //控制未完成订单页面
 app.controller('FetchOrderOutStandingCtrl',
-    function ($scope, $resource, DTOptionsBuilder, DTColumnDefBuilder,DTColumnBuilder, $http, DTDefaultOptions, $modal, $log) {
+    function ($scope, $resource, $http, $modal, $log) {
+
+    $scope.orderProp = 'id';
+
         $scope.orders = [];
         $scope.start = 0;
         $scope.maxSize = 10;
-        $scope.totalItems = 99;
+        $scope.totalItems = 0;
         $scope.currentPage = 1;
         $scope.pager = {
             draw: $scope.currentPage,
@@ -45,15 +48,6 @@ app.controller('FetchOrderOutStandingCtrl',
             console.log($scope.pager);
             init();
         };
-
-        $scope.reloadData = function () {
-            var resetPaging = false;
-            $scope.dtInstance.reloadData(callback, resetPaging);
-        };
-
-        function callback(json) {
-            console.log(json);
-        }
 
         //复选框
         $scope.selected = []; //复选框被选择的项

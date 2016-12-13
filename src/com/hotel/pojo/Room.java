@@ -18,6 +18,8 @@ public class Room extends BasePoJo {
     private String address; //地址
     private String tips;    //入住提示
     private String userId;
+    private String userName;
+    private int roomState;
     private RoomSupplies roomSupplies;//房间描述对象
 
 
@@ -87,6 +89,22 @@ public class Room extends BasePoJo {
         this.roomSupplies = roomSupplies;
     }
 
+    public int getRoomState() {
+        return roomState;
+    }
+
+    public void setRoomState(int roomState) {
+        this.roomState = roomState;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     @Override
     public String toString() {
         return "Room{" +
@@ -98,6 +116,7 @@ public class Room extends BasePoJo {
                 ", tips='" + tips + '\'' +
                 ", userId='" + userId + '\'' +
                 ", roomSupplies=" + roomSupplies +
+                ", roomState=" + roomState +
                 ","+super.toString()+
                 '}';
     }

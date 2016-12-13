@@ -5,7 +5,7 @@
 <mapper namespace="com.hotel.mapper.UserMapper">
 	
 	<select id="getUser" parameterType="com.hotel.pojo.LoginUser" resultType="com.hotel.pojo.User">
-		select t_user.Id,UserName,`Password`,RealName,Sex,TelPhone,Email,UserRoleTypeId,t_user.CreateDate,t_user.UserStateId
+		select t_user.*,t_userrole.userRoleTypeId
 		from t_user,t_userrole
 		where t_user.Id=t_userrole.UserId
 		and (UserName= #{loginName}
@@ -241,6 +241,6 @@
 	</select>
 
 	<insert id="insert">
-		INSERT INTO t_user (Id,RealName,UserName,PassWord,Sex,TelPhone,Email,Creator,CreateDate,OperateDate,UserStateId) VALUES(#{id},#{realName},#{userName},#{sex},#{telPhoe},#{email},#{creator},#{createDate},#{operateDate},#{userSateId})
+		INSERT INTO hotel.t_user (Id,RealName,IDNumber,UserName,PassWord,Sex,TelPhone,Email,Creator,CreateDate,OperateDate,UserStateId) VALUES(#{id},#{realName},#{IDNumber},#{userName},#{sex},#{telPhoe},#{email},#{creator},#{createDate},#{operateDate},#{userSateId})
 	</insert>
 </mapper>

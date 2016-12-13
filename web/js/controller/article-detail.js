@@ -7,6 +7,8 @@ app.controller('FetchArticleCtrl', function ($scope, $http, $stateParams) {
         .success(function (data) {
             if(data.resultCode == 'success'){
                 $scope.article = data.object;
+                console.log($scope.article.content);
+                angular.element('#content').html( $scope.article.content);
             }else{
                 console.log('请求失败');
             }

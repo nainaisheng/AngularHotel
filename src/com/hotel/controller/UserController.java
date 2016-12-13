@@ -38,9 +38,12 @@ public class UserController {
     @ResponseBody
     public User getUserInfo(HttpSession session) {
         User user = (User) session.getAttribute(Constant.USERINFO);
-        user.setCreateDate(TimeFormatUtil.timeFormat(user.getCreateDate()));
-        user.setOperateDate(TimeFormatUtil.timeFormat(user.getOperateDate()));
-        return user;
+        User users = new User();
+        users = userService.getUserById(user.getId());
+        users.setCreateDate(TimeFormatUtil.timeFormat(user.getCreateDate()));
+        users.setOperateDate(TimeFormatUtil.timeFormat(user.getOperateDate()));
+        return users;
+
     }
 
     @RequestMapping(value = "/user/{id}",method = RequestMethod.GET)

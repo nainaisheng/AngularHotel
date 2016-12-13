@@ -33,7 +33,7 @@ public class OrderController {
     private OrderService orderService;
 
     /**
-     * 查询为完成订单
+     * 查询未完成订单
      * 分区域和全部
      * @param pager 分页对象
      * @param session
@@ -105,6 +105,39 @@ public class OrderController {
             tableResult.setRecordsTotal(pager.getTotalCount());
             tableResult.setRecordsFiltered(orderList.size());
         }else {
+            tableResult.setData(null);
+            tableResult.setDraw(pager.getDraw());
+            tableResult.setRecordsTotal(pager.getTotalCount());
+            tableResult.setRecordsFiltered(0);
+        }
+        return tableResult;
+    }
+
+    @RequestMapping("/orders/cancelled")
+    @ResponseBody
+    public DataTableResult<Order> getCanceledOrder(@RequestBody Pager<Order> pager, HttpSession session) {
+        List<Order> orderList = null;
+        DataTableResult<Order> tableResult = new DataTableResult();
+        User user = (User) session.getAttribute(Constant.USERINFO);
+        HashMap<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("orderStatId", 3);
+        int roleTypeId = user.getUserRoleTypeId();
+        if (roleTypeId == 3) {
+
+            orderList = orderService.getCanceledOrder(pager, paramMap);
+        } else if (roleTypeId == 4) {
+            paramMap.put("userId", user.getId());
+            orderList = orderService.getPartCanceledOrder(pager, paramMap);
+        }
+        if (orderList != null && orderList.size() > 0) {
+            for (Order order : orderList) {
+                order.setCreateDate(TimeFormatUtil.timeFormat(order.getCreateDate()));
+            }
+            tableResult.setData(orderList);
+            tableResult.setDraw(pager.getDraw());
+            tableResult.setRecordsTotal(pager.getTotalCount());
+            tableResult.setRecordsFiltered(orderList.size());
+        } else {
             tableResult.setData(null);
             tableResult.setDraw(pager.getDraw());
             tableResult.setRecordsTotal(pager.getTotalCount());

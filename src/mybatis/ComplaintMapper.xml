@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hotel.mapper.ComplaintMapper">
+    <resultMap id="complaint" type="com.hotel.pojo.Complaint">
+        <id column="Id" property="id"></id>
+        <association property="user" column="UserId" javaType="com.hotel.pojo.User" select="getUser">
+            <id column="Id" property="id"/>
+        </association>
+        <association property="room" column="RoomId" javaType="com.hotel.pojo.Room" select="getRoom">
+            <id column="Id" property="id"/>
+        </association>
+    </resultMap>
+    <select id="getSolvedComplaintCount" resultType="int">
+        SELECT COUNT(*) FROM hotel.t_complaint WHERE ComplaintStateId=#{complaintStateId}
+    </select>
+
+    <select id="getSolvedComplaint" resultMap="complaint">
+        SELECT * FROM hotel.t_complaint WHERE ComplaintStateId=#{complaintStateId} ORDER BY Id limit #{start},#{limit}
+    </select>
+    <select id="getUser" resultType="com.hotel.pojo.User">
+        select * from t_user where Id = #{id}
+    </select>
+    <select id="getRoom" resultType="com.hotel.pojo.Room">
+        SELECT * from t_room where Id = #{id}
+    </select>
+    <select id="getPartSolvedComplaintCount" resultType="int">
+        SELECT
+			count(*)
+		FROM
+			hotel.t_complaint
+		WHERE
+			RoomId IN (
+				SELECT
+					t_room.Id
+				FROM
+					t_room
+				WHERE
+					t_room.UserId IN (
+
+						SELECT
+							t_userrole.UserId
+						FROM
+							t_userrole
+						WHERE
+							t_userrole.Id IN (
+								SELECT
+									t_authorization.UserRoleId
+								FROM
+									t_authorization
+								WHERE
+									t_authorization.AreaId IN (
+										SELECT
+											t_area.Id
+										FROM
+											t_area
+										WHERE
+											t_area.Id = #{areaId}
+										OR t_area.ParentId = #{areaId}
+									)
+							)
+					)
+			)
+			AND ComplaintStateId = #{complaintStateId}
+    </select>
+    <select id="getPartSolvedComplaint" resultMap="complaint">
+        SELECT
+        *
+        FROM
+        hotel.t_complaint
+        WHERE
+        RoomId IN (
+        SELECT
+        t_room.Id
+        FROM
+        t_room
+        WHERE
+        t_room.UserId IN (
+
+        SELECT
+        t_userrole.UserId
+        FROM
+        t_userrole
+        WHERE
+        t_userrole.Id IN (
+        SELECT
+        t_authorization.UserRoleId
+        FROM
+        t_authorization
+        WHERE
+        t_authorization.AreaId IN (
+        SELECT
+        t_area.Id
+        FROM
+        t_area
+        WHERE
+        t_area.Id = #{areaId}
+        OR t_area.ParentId = #{areaId}
+        )
+        )
+        )
+        )
+        AND ComplaintStateId = #{complaintStateId}
+        ORDER BY
+        Id DESC
+        LIMIT #{start},#{limit}
+    </select>
+
+    <select id="getComplaintById" resultMap="complaint">
+        SELECT * FROM hotel.t_complaint WHERE Id=#{id}
+    </select>
+
+    <update id="updateComplaintState" parameterType="com.hotel.pojo.Complaint">
+        UPDATE hotel.t_complaint SET Checker=#{checker},CheckDate=#{checkDate},OperateDate=#{operateDate},ComplaintStateId=#{complaintStateId},Reply=#{reply} WHERE Id=#{id}
+    </update>
+</mapper>

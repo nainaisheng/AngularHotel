@@ -9,7 +9,6 @@ import com.hotel.util.Constant;
 import com.hotel.util.DataTableResult;
 import com.hotel.util.Pager;
 import com.hotel.util.TimeFormatUtil;
-import com.smallchill.core.constant.Const;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,25 +41,49 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
+    /**
+     * 分页获取管理员列表
+     * @param pager 分页对象
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/admins",method = RequestMethod.POST)
     @ResponseBody
-    public Result getAdminList(@RequestBody Pager<User> pager, HttpSession session){
+    public DataTableResult<User> getAdminList(@RequestBody Pager<User> pager, HttpSession session){
         List<User> userList = null;
+        DataTableResult tableResult = new DataTableResult();
         User user = (User) session.getAttribute(Constant.USERINFO);
         HashMap<String, Object> paramMap = new HashMap<String, Object>();
         if (user.getUserRoleTypeId()==3) {
             userList = adminService.getAdminList(pager, paramMap);
-            return new Result("success",Constant.DEAL_SUCCESS,userList);
+            if (userList!=null&&userList.size()>0) {
+                for (User user1 : userList) {
+                    user1.setCreateDate(TimeFormatUtil.timeFormat(user1.getCreateDate()));
+                }
+
+            }
+            tableResult.setDraw(pager.getDraw());
+            tableResult.setDraw(pager.getDraw());
+            tableResult.setRecordsFiltered(userList.size());
+            tableResult.setData(userList);
         }
-        return new Result("fail",Constant.DEAL_FAIL);
+        tableResult.setRecordsTotal(pager.getTotalCount());
+        return tableResult;
+
     }
 
+    /**
+     * 添加管理员
+     * @param user  管理员对象信息
+     * @param session
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/admin/add",method = RequestMethod.POST)
     @ResponseBody
     public Result insertAdmin(@RequestBody User user,HttpSession session) throws Exception {
         User user1 = (User) session.getAttribute(Constant.USERINFO);
-        System.out.println(user);
-        System.out.println(user1.getUserRoleTypeId());
+
         user.setCreator(user1.getUserName());
         if (user1.getUserRoleTypeId()==3){
             int result;
@@ -71,6 +95,12 @@ public class AdminController {
         return new Result("fail",Constant.DEAL_FAIL);
     }
 
+    /**
+     * s删除管理员对象
+     * @param id
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/admin/delete",method = RequestMethod.POST)
     @ResponseBody
     public Result deleteAdmin(@RequestBody String[] id,HttpSession session){
@@ -86,26 +116,37 @@ public class AdminController {
         return new Result("fail",Constant.DEAL_FAIL);
     }
 
+    /**
+     * 分页获取管理员列表
+     * @param pager
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/superAdmins",method = RequestMethod.POST)
     @ResponseBody
-    public Result getSuperAdminList(@RequestBody Pager<User> pager,HttpSession session){
+    public DataTableResult<User> getSuperAdminList(@RequestBody Pager<User> pager, HttpSession session){
         HashMap<String, Object> paramMap = new HashMap<String, Object>();
         List<User> userList = null;
         User user = (User) session.getAttribute(Constant.USERINFO);
+        DataTableResult<User> tableResult = new DataTableResult<User>();
         if (user.getUserRoleTypeId()==3) {
             userList = adminService.getSuperAdminList(pager,paramMap);
             if (userList!=null&&userList.size()>0){
-                DataTableResult<User> tableResult = new DataTableResult<User>();
-                tableResult.setDraw(pager.getDraw());
-                tableResult.setRecordsTotal(pager.getTotalCount());
                 tableResult.setRecordsFiltered(userList.size());
                 tableResult.setData(userList);
-                return new Result("success",Constant.DEAL_SUCCESS,tableResult);
             }
         }
-        return new Result("fail",Constant.DEAL_FAIL);
+        tableResult.setDraw(pager.getDraw());
+        tableResult.setRecordsTotal(pager.getTotalCount());
+        return tableResult;
     }
 
+    /**
+     * 将超级管理员变成区域管理员
+     * @param areaIdAndId 区域id和id
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/superToArea",method = RequestMethod.POST)
     @ResponseBody
     public Result superToArea(@RequestBody AreaIdAndId areaIdAndId, HttpSession session){
@@ -143,25 +184,25 @@ public class AdminController {
      */
     @RequestMapping(value = "/areaAdmins",method = RequestMethod.POST)
     @ResponseBody
-    public Result getAreaAdminsList(@RequestBody Pager<User> pager,HttpSession session){
+    public DataTableResult<User> getAreaAdminsList(@RequestBody Pager<User> pager,HttpSession session){
+        DataTableResult<User> tableResult = new DataTableResult<User>();
         User user = (User) session.getAttribute(Constant.USERINFO);
         HashMap<String, Object> paramMap = new HashMap<String, Object>();
         if (user.getUserRoleTypeId()==3){
             List<User> userList = adminService.getAreaAdminsList(pager, paramMap);
             if (userList!=null&&userList.size()>0){
-                DataTableResult<User> tableResult = new DataTableResult<User>();
+
                 for (User user1 : userList) {
                     user1.setCreateDate(TimeFormatUtil.timeFormat(user1.getCreateDate()));
                 }
                 tableResult.setDraw(pager.getDraw());
-                tableResult.setRecordsTotal(pager.getTotalCount());
                 tableResult.setRecordsFiltered(userList.size());
                 tableResult.setData(userList);
-                return new Result("success",Constant.DEAL_SUCCESS,tableResult);
             }
+            tableResult.setRecordsTotal(pager.getTotalCount());
         }
 
-        return new Result("fail",Constant.DEAL_FAIL);
+        return tableResult;
     }
 
     /**
@@ -197,6 +238,13 @@ public class AdminController {
         return new Result("fail",Constant.DEAL_FAIL);
 
     }
+
+    /**
+     * 管理员更新管理区域
+     * @param areaIdAndId
+     * @param session
+     * @return
+     */
 
     @RequestMapping(value = "/admin/areaUpdate")
     @ResponseBody

@@ -10,6 +10,11 @@
 		</association>
 		<association property="room" column="RoomId" javaType="com.hotel.pojo.Room" select="getRoom">
 			<id column="Id" property="id"/>
+		</association><association property="user" column="UserId" javaType="com.hotel.pojo.User" select="getUser">
+		<id column="Id" property="id"/>
+	</association>
+		<association property="room" column="RoomId" javaType="com.hotel.pojo.Room" select="getRoom">
+			<id column="Id" property="id"/>
 		</association>
 	</resultMap>
 

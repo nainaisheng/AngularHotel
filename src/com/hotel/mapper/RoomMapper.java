@@ -29,4 +29,11 @@ public interface RoomMapper {
     Room getRoomInfoById(String id);
 
     int deleteRoomById(Map<String, String[]> roomsId);
+
+    int updateRoomState(Room room);
+
+    long getOwnerRoomCount(HashMap<String, Object> paramMap);
+
+    List<Room> getRoomByOwnerId(HashMap<String, Object> paramMap);
+
 }

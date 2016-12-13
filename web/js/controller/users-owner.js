@@ -1,12 +1,14 @@
 'use strict';
 
 app.controller('FetchOwnerCtrl',
-    function ($scope, $resource, DTOptionsBuilder, DTColumnDefBuilder,DTColumnBuilder, $http, DTDefaultOptions, $modal, $log, $window) {
+    function ($scope, $resource,  $http, $modal, $log) {
+
+        $scope.orderProp = 'createDate';
 
         $scope.users = [];
         $scope.start = 0;
         $scope.maxSize = 10;
-        $scope.totalItems = 99;
+        $scope.totalItems = 0;
         $scope.currentPage = 1;
         $scope.pager = {
             draw: $scope.currentPage,
@@ -22,17 +24,21 @@ app.controller('FetchOwnerCtrl',
                 data: $scope.pager
             })
                 .success(function (data) {
-                    console.log(data);
                     $scope.users = data.data;
                     $scope.totalItems = data.recordsTotal;
                     angular.forEach($scope.users,function (user) {
-                        console.log(user);
                         if(user.userStateId == 1){
                             user.state = '正常';
                         }else if(user.userStateId == 2){
                             user.state = '冻结';
-                        }else {
+                        }else if(user.userStateId == 3){
                             user.state = '异常';
+                        }else if(user.userStateId == 6){
+                            user.state = '待核验';
+                        }else if(user.userStateId == 7){
+                            user.state = '已通过';
+                        }else{
+                            user.state = '未通过';
                         }
                     });
                 })
@@ -57,21 +63,6 @@ app.controller('FetchOwnerCtrl',
             init();
         };
 
-
-
-
-
-
-
-
-        $scope.reloadData = function () {
-            var resetPaging = false;
-            $scope.dtInstance.reloadData(callback, resetPaging);
-        };
-
-        function callback(json) {
-            console.log(json);
-        }
 
         //复选框
         $scope.selected = []; //复选框被选择的项

@@ -35,6 +35,10 @@
         <!--</div>-->
     <!--</form>-->
     <!-- / search form -->
+    <div class="col-sm-6" style="text-align: right; padding-top: 15px;">
+        <span ng-if="userRoleTypeId == 4">{{areaName}}管理员</span>
+
+    </div>
 
     <ul class="nav navbar-nav navbar-right">
         <li class="dropdown" dropdown>
@@ -52,7 +56,7 @@
                     <div class="list-group">
                         <a href class="media list-group-item">
                     <span class="pull-left thumb-sm">
-                      <img ng-src="{{admin.imageUrl}}" alt="..." class="img-circle">
+                      <img src="/img/a0.jpg" alt="..." class="img-circle">
                     </span>
                     <span class="media-body block m-b-none">
                       新房主申请<br>
@@ -82,7 +86,7 @@
                 <img src="/img/a0.jpg" alt="...">
                 <i class="on md b-white bottom"></i>
               </span>
-                <span class="hidden-sm hidden-md">{{admin.userName}}</span> <b class="caret"></b>
+                <span class="hidden-sm hidden-md" ng-bind="admin.userName"></span> <b class="caret"></b>
             </a>
             <!-- dropdown -->
             <ul class="dropdown-menu animated fadeInRight w" >
@@ -144,7 +148,7 @@
                                         </div>
                                         <label class="col-sm-1 control-label no-padding-right no-padding-left" >密码</label>
                                         <div class="col-sm-3">
-                                            <input type="text" class="form-control" placeholder="请输入密码" value="{{user.password}}" ng-model="user.password" disabled>
+                                            <input type="password" class="form-control" placeholder="请输入密码" value="{{user.password}}" ng-model="user.password" disabled>
                                         </div>
                                     </div>
                                     <div class="form-group">

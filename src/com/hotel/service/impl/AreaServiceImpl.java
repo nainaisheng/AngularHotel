@@ -7,7 +7,7 @@ import com.hotel.service.AreaService;
 import com.hotel.util.Pager;
 import com.hotel.util.PhotoUploadUtil;
 import com.hotel.util.TimeFormatUtil;
-import com.smallchill.core.toolbox.file.UploadFileUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -166,8 +166,8 @@ public class AreaServiceImpl implements AreaService {
         /*
         省级管理员查询图片
          */
-
-            count = areaMapper.getPartPhotoCountByPro(paramMap);
+        pager.setTotalCount(count);
+        count = areaMapper.getPartPhotoCountByPro(paramMap);
             if (count>0){
                 paramMap.put("start",pager.getStart());
                 paramMap.put("limit",pager.getLength());

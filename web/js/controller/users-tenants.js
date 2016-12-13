@@ -1,11 +1,13 @@
 'use strict';
 
-app.controller('FetchDataCtrl',
-    function ($scope, $resource, DTOptionsBuilder, DTColumnDefBuilder,DTColumnBuilder, $http, DTDefaultOptions, $modal, $log, $window) {
+app.controller('FetchDataCtrl', function ($scope, $resource,  $http,  $modal, $log) {
+
+    $scope.orderProp = 'createDate';
+
         $scope.users = [];
         $scope.start = 0;
         $scope.maxSize = 10;
-        $scope.totalItems = 99;
+        $scope.totalItems = 0;
         $scope.currentPage = 1;
         $scope.state = '正常';
         $scope.pager = {

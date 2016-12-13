@@ -3,12 +3,14 @@ package com.hotel.controller;
 import com.hotel.pojo.LoginUser;
 import com.hotel.pojo.Result;
 import com.hotel.pojo.User;
+import com.hotel.service.AreaService;
 import com.hotel.service.UserService;
 import com.hotel.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -27,18 +29,9 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
-/*    @RequestMapping("/login")
-    public String login(){
-     *//*   Login login = new Login();
-        login.setUsername("鸣人");
-        login.setPassword("root");*//*
-        LoginUser login = new LoginUser();
-        login.setLoginName("鸣人");
-        login.setLoginPassword("root");
-        User user = userService.getUser(login);
-        System.out.println(user.getUserRoleTypeId());
-        return "";
-    }*/
+
+    @Resource
+    private AreaService areaService;
 
     /**
      * 管理员登陆
@@ -52,7 +45,12 @@ public class LoginController {
         User user = userService.getUser(loginUser);
         if (user != null){
             if (user.getUserStateId()==1) {
+                if (user.getUserRoleTypeId()==4){
+                    user.setArea(areaService.getAreaById(user.getId()));
+                }
+
                 session.setAttribute(Constant.USERINFO, user);
+                session.setMaxInactiveInterval(60000000);
                 return new Result("success", Constant.LOGIN_SUCCESS, user);
             }else{
                 return new Result("exception",Constant.LOGIN_EXCEPTION);

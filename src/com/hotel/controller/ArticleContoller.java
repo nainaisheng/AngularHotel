@@ -4,7 +4,6 @@ import com.hotel.pojo.*;
 import com.hotel.service.AreaService;
 import com.hotel.service.ArticleService;
 import com.hotel.util.*;
-import com.smallchill.core.constant.Const;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

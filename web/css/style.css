@@ -172,7 +172,7 @@ div.alert-success{
 }
 .room-click:last-child{
     background-position: -32px 0;
-    right: 25px;
+    right: 30px;
 }
 .my-img{
     overflow: hidden;
@@ -466,4 +466,18 @@ a.light-grey{
     position: absolute;
     top: 40%;
     right: 0;
+}
+.complaint_grid{
+    padding: 0;
+}
+.complaint_grid .col-xs-12{
+    padding: 5px 0;
+}
+
+.accept{
+    color: red;
+}
+.accept:hover{
+    text-decoration: none;
+    color: green;
 }

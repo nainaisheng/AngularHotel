@@ -9,6 +9,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.PrintWriter;
 import java.util.List;
 
 /**
@@ -46,22 +47,22 @@ public class SessionInterceptor extends HandlerInterceptorAdapter{
     }
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        System.out.println("Ok!!!!");
         long startTime = System.currentTimeMillis();
         dealTimeThreadLoacal.set(startTime);
 
         String url = request.getRequestURI();
+        System.out.println("url: "+url);
         boolean result = isStaticFile(url);
-        System.out.println(result);
         if (result) {
             return true;
         }else{
 
                 if (!url.contains("/user/login")){
                     HttpSession session = request.getSession();
+                    System.out.println("验证session之前");
                     if (session.getAttribute(Constant.USERINFO)==null){
-                        System.out.println("kong");
-                       response.sendRedirect("/index.html");
+                        System.out.println("验证session之后");
+                        response.sendRedirect("/session/error");
                         return false;
                     }
                     return true;

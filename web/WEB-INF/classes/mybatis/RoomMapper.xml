@@ -87,4 +87,31 @@
 		</foreach>
 	</delete>
 
+	<update id="updateRoomState" parameterType="com.hotel.pojo.Room">
+		UPDATE hotel.t_room SET roomState=#{roomState} WHERE Id=#{id}
+	</update>
+
+	<select id="getOwnerRoomCount" resultType="long">
+		SELECT count(*)
+		FROM
+		  t_room
+			WHERE
+				t_room.UserId = #{ownerId}
+	</select>
+
+	<select id="getRoomByOwnerId" resultType="com.hotel.pojo.Room">
+	SELECT
+	t_room.*, t_user.UserName
+FROM
+	t_room,
+	t_user
+WHERE
+	t_room.UserId = t_user.Id
+AND t_room.UserId = #{ownerId}
+ORDER BY
+	Price DESC
+LIMIT #{start},
+ #{limit}
+</select>
+
 </mapper>

@@ -110,4 +110,27 @@ public class RoomServiceImpl implements RoomService {
         return roomresult;
     }
 
+
+    @Override
+    public boolean updateRoomState(Room room) {
+        int result = roomMapper.updateRoomState(room);
+        return result==1? true:false;
+    }
+
+    @Override
+    public List<Room> getRoomByOwnerId(Pager<Room> pager, HashMap<String, Object> paramMap) {
+        List<Room> roomList = null;
+        long count = roomMapper.getOwnerRoomCount(paramMap);
+        System.out.println(count);
+        pager.setTotalCount((int) count);
+        if (count>0){
+            paramMap.put("start",pager.getStart());
+            paramMap.put("limit",pager.getLength());
+            roomList = roomMapper.getRoomByOwnerId(paramMap);
+
+        }
+        return roomList;
+
+    }
+
 }

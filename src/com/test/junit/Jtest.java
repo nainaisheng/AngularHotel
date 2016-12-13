@@ -61,7 +61,6 @@ public class Jtest {
             user.setPassword("123");
             user.setTelPhone("135743" + 11113 + i);
             user.setEmail(123415 + i + "@qq.com");
-            user.setAddress("湖南张家界");
             user.setSex("女");
             user.setCreator("小xiao" + i);
             user.setCreateDate(TimeFormatUtil.formatTime());

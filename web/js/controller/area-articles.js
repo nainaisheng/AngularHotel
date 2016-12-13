@@ -1,10 +1,13 @@
 'use strict';
 
 app.controller('FetchArticlesCtrl', function ($scope, $http, $modal, $log) {
+
+    $scope.orderProp = 'createDate';
+
     $scope.articles = [];
     $scope.start = 0;
     $scope.maxSize = 10;
-    $scope.totalItems = 99;
+    $scope.totalItems = 0;
     $scope.currentPage = 1;
     $scope.pager = {
         draw: $scope.currentPage,

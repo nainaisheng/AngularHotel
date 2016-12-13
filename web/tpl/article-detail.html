@@ -8,11 +8,11 @@
 </div>
 <div class="wrapper-md" ng-controller="FetchArticleCtrl">
     <div class="panel panel-default" style="padding: 10px; text-align: center;">
-        {{article.id}}
         <h2>{{article.title}}</h2>
-        {{article.creator}}
-        {{article.area.areaName}}
-        {{article.createDate}}
-        {{article.content}}
+        上传者：{{article.creator}}&nbsp;&nbsp;&nbsp;
+        所在地区：{{article.area.areaName}}&nbsp;&nbsp;&nbsp;
+        上传时间：{{article.createDate}}
+        <div id="content" style="border: 1px dashed #ddd; padding: 20px;"></div>
+        <div style="clear: both;"></div>
     </div>
 </div>

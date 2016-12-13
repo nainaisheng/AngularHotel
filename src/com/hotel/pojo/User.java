@@ -14,11 +14,11 @@ public class User extends BasePoJo {
     private String id;
     private String userName;
     private String realName;//真实姓名
+    private String iDNumber;
     private String sex; //性别
     private String telPhone;    //电话
     private String email;   //邮箱
     private String password;    //密码
-    private String address;
     private int userRoleTypeId; //用户类型
     private int userStateId;
     private String areaId;  //用户id
@@ -80,13 +80,6 @@ public class User extends BasePoJo {
         this.password = password;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
 
     public int getUserRoleTypeId() {
         return userRoleTypeId;
@@ -117,7 +110,16 @@ public class User extends BasePoJo {
         return area;
     }
 
+    public String getiDNumber() {
+        return iDNumber;
+    }
+
+    public void setiDNumber(String iDNumber) {
+        this.iDNumber = iDNumber;
+    }
+
     public void setArea(Area area) {
+
         this.area = area;
     }
 
@@ -127,15 +129,15 @@ public class User extends BasePoJo {
                 "id='" + id + '\'' +
                 ", userName='" + userName + '\'' +
                 ", realName='" + realName + '\'' +
+                ", IDNumber='" + iDNumber + '\'' +
                 ", sex='" + sex + '\'' +
                 ", telPhone='" + telPhone + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", address='" + address + '\'' +
                 ", userRoleTypeId=" + userRoleTypeId +
                 ", userStateId=" + userStateId +
                 ", areaId='" + areaId + '\'' +
-                ", area="  +super.toString()+
+                ", area=" + area +
                 '}';
     }
 }

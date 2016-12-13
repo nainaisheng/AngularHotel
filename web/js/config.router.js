@@ -6,10 +6,39 @@
  */
 angular.module('app')
 .run([
-    '$rootScope', '$state', '$stateParams',
-    function ($rootScope, $state, $stateParams) {
+    '$rootScope', '$state', '$stateParams', '$localStorage',
+    function ($rootScope, $state, $stateParams, $localStorage) {
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
+
+        // delete $localStorage.admin;
+        $rootScope.admin = $localStorage.admin;
+        console.log($rootScope.admin);
+        $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+
+            // if(toState.name == 'access.signin') return;//如果进入登录界面则允许
+            // //如果用户不存在
+            //
+            // if(!$rootScope.admin || $rootScope.admin == 'undefined' || angular.equals({}, $rootScope.admin)){
+            //     event.preventDefault();//取消默认跳转行为
+            //     $state.go('access.signin',{from: fromState.name, w: 'notLogin'});
+            // }else{
+            //     event.preventDefault();
+            //     $state.go('app.dashboard', {from: fromState.name, w: 'login'});
+            // }
+            //
+            //
+            // if(toState.name == 'app.dashboard') return;//如果进入主页面
+            //
+            // if(toState.name == 'access.404') return;//如果是发生错误就进入404界面
+
+        });
+        $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams) {
+            event.preventDefault();
+            $state.go('access.404');
+        });
+
+
     }
 ])
 .config([
@@ -94,6 +123,10 @@ angular.module('app')
                 url: '/forgotpwd',
                 templateUrl: 'tpl/forgotpwd.html'
             })
+            .state('access.404', {
+                url: '/404',
+                templateUrl: 'tpl/404.jsp'
+            })
             //users
             .state('app.users', {
                 url: '/users',
@@ -110,6 +143,26 @@ angular.module('app')
                     ]
                 }
             })
+            .state('app.users.rooms', {
+                url: '/rooms/:userId',
+                templateUrl: 'tpl/owner-rooms.html',
+                resolve: {
+                    deps: ['uiLoad',
+                        function (uiLoad) {
+                            return uiLoad.load(['js/controller/owner-rooms.js']);
+                        }]
+                }
+            })
+            .state('app.users.roomDetail',{
+                url: '/roomDetail/:roomId',
+                templateUrl: 'tpl/owner-room-detail.html',
+                resolve: {
+                    deps: ['uiLoad',
+                        function (uiLoad) {
+                            return uiLoad.load(['js/controller/room-detail.js']);
+                        }]
+                }
+            })
             .state('app.users.tenants', {
                 url: '/tenants',
                 templateUrl: 'tpl/users-tenants.html',
@@ -119,6 +172,60 @@ angular.module('app')
                             return uiLoad.load(['js/controller/users-tenants.js']);
                         }
                     ]
+                }
+            })
+            .state('app.complaints', {
+                url: '/complaint',
+                template: '<div ui-view></div>'
+            })
+            .state('app.complaints.solved', {
+                url: '/solved',
+                templateUrl: 'tpl/complaint_solved.html',
+                resolve: {
+                    deps: ['uiLoad',
+                        function (uiLoad) {
+                            return uiLoad.load(['js/controller/complaint_solved.js']);
+                        }]
+                }
+            })
+            .state('app.complaints.handing', {
+                url: '/handing',
+                templateUrl: 'tpl/complaint_handing.html',
+                resolve: {
+                    deps: ['uiLoad',
+                        function (uiLoad) {
+                            return uiLoad.load(['js/controller/complaint_handing.js']);
+                        }]
+                }
+            })
+            .state('app.complaints.suspending', {
+                url: '/suspending',
+                templateUrl: 'tpl/complaint_suspending.html',
+                resolve: {
+                    deps: ['uiLoad',
+                        function (uiLoad) {
+                            return uiLoad.load(['js/controller/complaint_suspending.js']);
+                        }]
+                }
+            })
+            .state('app.complaint', {
+                url: '/complaints/:complaintId',
+                templateUrl: 'tpl/complaint_detail.html',
+                resolve: {
+                    deps: ['uiLoad',
+                        function (uiLoad) {
+                            return uiLoad.load(['js/controller/complaint_detail.js']);
+                        }]
+                }
+            })
+            .state('app.acceptComplaint', {
+                url: '/acceptComplaint/:complaintId',
+                templateUrl: 'tpl/complaint_accept.html',
+                resolve: {
+                    deps: ['uiLoad',
+                        function (uiLoad) {
+                            return uiLoad.load(['js/controller/complaint_accept.js']);
+                        }]
                 }
             })
             .state('app.orders', {
@@ -142,6 +249,16 @@ angular.module('app')
                     deps: ['uiLoad',
                         function (uiLoad) {
                             return uiLoad.load(['js/controller/order-completed.js']);
+                        }]
+                }
+            })
+            .state('app.orders.cancelled', {
+                url: '/cancelled',
+                templateUrl: 'tpl/orders-cancelled.html',
+                resolve: {
+                    deps: ['uiLoad',
+                        function (uiLoad) {
+                            return uiLoad.load(['js/controller/order-cancelled.js']);
                         }]
                 }
             })
