@@ -15,8 +15,8 @@
 #技术支持
 
 1.后端
-* 核心框架： Spring Framework 4.2.5
-* 视图框架： Spring MVC 4.2.5
+* 核心框架：Spring Framework 4.2.5
+* 视图框架：Spring MVC 4.2.5
 * 持久层框架: MyBatis 3.2
 
 2.前端
