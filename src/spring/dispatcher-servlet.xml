@@ -7,7 +7,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-<context:component-scan base-package="com.hotel.controller"/>
+<context:component-scan base-package="com.nona.hotel.angularhotel.controller"/>
     <mvc:annotation-driven>
         <mvc:message-converters>
             <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter" >
@@ -66,7 +66,7 @@
    <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
-            <bean class="com.hotel.interceptor.SessionInterceptor">
+            <bean class="main.java.com.nona.hotel.angularhotel.interceptor.SessionInterceptor">
                 <property name="excludeMappingUrl">
                     <list>
                         <value>.js</value>

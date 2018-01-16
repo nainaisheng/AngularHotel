@@ -16,7 +16,7 @@
     <!--引入资源-->
     <context:property-placeholder location="classpath:/resources/jdbc.properties"/>
     <!--自动扫描bean-->
-    <context:component-scan base-package="com.hotel.service,com.hotel.util"/>
+    <context:component-scan base-package="com.nona.hotel.angularhotel.service,com.nona.hotel.angularhotel.util"/>
     <!--连接池配置-->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="${jdbc.driver}"/>
@@ -29,15 +29,15 @@
     <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <!--指定扫描mapper.xml的位置-->
-        <property name="mapperLocations" value="classpath:/mybatis/*Mapper.xml"/>
+        <property name="mapperLocations" value="classpath:/mapper/*Mapper.xml"/>
         <!--指定别名的实体类位置-->
-        <property name="typeAliasesPackage" value="com.hotel.pojo"/>
+        <property name="typeAliasesPackage" value="com.nona.hotel.angularhotel.pojo"/>
     </bean>
 
     <!--自动扫描mapper的配置-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <!--mapper文件对应的接口包位置-->
-        <property name="basePackage" value="com.hotel.mapper"/>
+        <property name="basePackage" value="com.nona.hotel.angularhotel.mapper"/>
         <!--指定sqlsessionfactory-->
         <property name="sqlSessionFactoryBeanName" value="sessionFactory"/>
     </bean>
@@ -75,7 +75,7 @@
 
     <!--切面配置-->
     <aop:config>
-        <aop:advisor advice-ref="txAdvice"  pointcut="execution(* com.hotel.service.impl.*.*(..))"/>
+        <aop:advisor advice-ref="txAdvice"  pointcut="execution(* com.nona.hotel.angularhotel.service.impl.*.*(..))"/>
     </aop:config>
 
     <tx:annotation-driven transaction-manager="txManager"/>
