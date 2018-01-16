@@ -1,5 +1,12 @@
 # AngularHotel
 
+## 说明
+鉴于有部分朋友star和fork这个项目,
+之前帮朋友写的时候没有使用maven,趁此次计划重构了一下,已于大家的构建和部署
+
+
+##内容
+
 本系统作为蚌壳民宿平台项目的web资源管理端，使用ng开发的单页应用系统
 主要内容是：
 
@@ -12,7 +19,7 @@
  * 系统管理（权限管理）
     
     
-#技术
+#技术栈
 
 1.后端
 * 核心框架：Spring Framework 4.2.5
@@ -31,39 +38,27 @@
 * http-server
 
 2.后端
-* intellij idea2016.2
+* Intellij idea2016.2
 * tomcat7.0.67
 * jdk1.8
 * mysql5.6
 
-## 导入说明
+## 项目使用
+1.导入sql,更改application.yml的配置
+2.导入项目到IDE或者直接 mvn package
+3.IDE运行项目或者直接java -jar target/angular-hotel-0.0.1-SNAPSHOT.jar
 
-导入项目设置如下相关的东西,
+不懂的朋友看一下网上的spring boot教程.
 
-![](http://of8rkrh1w.bkt.clouddn.com/%E9%80%89%E5%8C%BA_008.png)
-
-![](http://of8rkrh1w.bkt.clouddn.com/2018/1/16%E9%80%89%E5%8C%BA_009.png)
-
-![](http://of8rkrh1w.bkt.clouddn.com/2018/1/16%E9%80%89%E5%8C%BA_010.png)
-
-![](http://of8rkrh1w.bkt.clouddn.com/2018/1/16%E9%80%89%E5%8C%BA_011.png)
-
-![](http://of8rkrh1w.bkt.clouddn.com/2018/1/16%E9%80%89%E5%8C%BA_012.png)
-
-![](http://of8rkrh1w.bkt.clouddn.com/2018/1/16%E9%80%89%E5%8C%BA_013.png)
-
-![](http://of8rkrh1w.bkt.clouddn.com/2018/1/16%E9%80%89%E5%8C%BA_014.png)
-
-
-导入sql,更改连接信息
-就可以运行了!!!!
-
-不懂的可以参看一下我的文章[使用idea创建web项目](http://blog.csdn.net/jsu_9207/article/details/51271799)
-
-
-## 说明
+## 计划
 
 2018年1月21日 - 计划改为maven项目
+
+## 进展
+
+2018年1月16日 -> 完成初步的改造,使用全新的spring boot
+
+
 
 
 
