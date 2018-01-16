@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mapper.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+  
+<mapper namespace="com.nona.hotel.angularhotel.mapper.RoomSuppliesMapper">
+
+	<select id="getRoomSuppliesByRoomId" resultType="com.nona.hotel.angularhotel.pojo.RoomSupplies">
+		SELECT * from t_supplies where RoomId=#{roomId}
+	</select>
+	
+	<delete id="deleteSuppliesByRoomId" parameterType="map">
+		DELETE from t_supplies where RoomId IN
+		<foreach collection="roomsId" item="item" index="idnex" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+</mapper>

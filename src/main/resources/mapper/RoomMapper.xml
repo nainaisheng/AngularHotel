@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mapper.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+  
+<mapper namespace="com.nona.hotel.angularhotel.mapper.RoomMapper">
+	
+	<select id="getAllRoomCount" resultType="int">
+		SELECT count(*) from t_room
+	</select>
+	<select id="getAllRoomList" resultType="com.nona.hotel.angularhotel.pojo.Room">
+		SELECT * FROM t_room ORDER BY Id DESC limit #{start},#{limit}
+	</select>
+
+	<select id="getPartRoomCount" resultType="int">
+		SELECT count(*)
+		FROM
+		  t_room
+			WHERE
+				t_room.UserId IN (
+					SELECT
+						t_userrole.UserId
+					FROM
+						t_userrole
+					WHERE
+						t_userrole.Id IN (
+							SELECT
+								t_authorization.UserRoleId
+							FROM
+								t_authorization
+							WHERE
+								t_authorization.AreaId IN (
+									SELECT
+										t_area.Id
+									FROM
+										t_area
+									WHERE
+										t_area.Id=#{areaId}
+									OR t_area.ParentId=#{areaId}
+								)
+						)
+				)
+	</select>
+
+	<select id="getPartRoomList"  resultType="com.nona.hotel.angularhotel.pojo.Room">
+		SELECT
+			*
+		FROM
+			t_room
+		WHERE
+			t_room.UserId IN (
+				SELECT
+					t_userrole.UserId
+				FROM
+					t_userrole
+				WHERE
+					t_userrole.Id IN (
+						SELECT
+							t_authorization.UserRoleId
+						FROM
+							t_authorization
+						WHERE
+							t_authorization.AreaId IN (
+								SELECT
+									t_area.Id
+								FROM
+									t_area
+								WHERE
+									t_area.Id = #{areaId}
+								OR t_area.ParentId = #{areaId}
+							)
+					)
+			)
+		ORDER BY
+			t_room.Id DESC
+		LIMIT #{start},
+		 #{limit}
+	</select>
+
+	<select id="getRoomInfoById" resultType="com.nona.hotel.angularhotel.pojo.Room">
+		SELECT * FROM t_room WHERE Id=#{id}
+	</select>
+
+	<delete id="deleteRoomById" parameterType="map">
+		DELETE FROM t_room WHERE Id in
+		<foreach collection="roomsId" index="index" item="item" open="(" separator="," close=")">
+		  #{item}
+		</foreach>
+	</delete>
+
+	<update id="updateRoomState" parameterType="com.nona.hotel.angularhotel.pojo.Room">
+		UPDATE hotel.t_room SET roomState=#{roomState} WHERE Id=#{id}
+	</update>
+
+	<select id="getOwnerRoomCount" resultType="long">
+		SELECT count(*)
+		FROM
+		  t_room
+			WHERE
+				t_room.UserId = #{ownerId}
+	</select>
+
+	<select id="getRoomByOwnerId" resultType="com.nona.hotel.angularhotel.pojo.Room">
+	SELECT
+	t_room.*, t_user.UserName
+FROM
+	t_room,
+	t_user
+WHERE
+	t_room.UserId = t_user.Id
+AND t_room.UserId = #{ownerId}
+ORDER BY
+	Price DESC
+LIMIT #{start},
+ #{limit}
+</select>
+
+</mapper>

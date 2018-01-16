@@ -1,0 +1,137 @@
+<div class="hbox hbox-auto-xs hbox-auto-sm" ng-init="app.settings.asideFolded = false; app.settings.asideDock = false;"></div>
+
+<div class="col" ng-controller="RoomDetailCtrl">
+    <div class="bg-light lter b-b wrapper-sm my-nav" >
+        <div class="row">
+            <div class="col-xs-4">
+                <h1 class="m-n font-thin h5 text-black pull-left my-rooms ">
+                    您当前所在的位置：
+                    <a ui-sref="app.rooms" class="my-address">房间列表</a>
+                    &nbsp;<i class="fa fa-lg fa-angle-right"></i>&nbsp;
+                    <a ui-sref="app.room({roomId: room.id})" class="my-address">{{room.roomName}}</a>
+                </h1>
+            </div>
+
+        </div>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="col-xs-12" style="background: #ffffff; padding-bottom: 30px;">
+
+                <div class="col-sm-4">
+                    <div class="room-images">
+                        <i class="room-click"  ng-click="setImage(0);setDirection(0);"></i>
+                        <div class="my-img">
+                            <img ng-src="{{img}}" alt="{{room.name}}" ng-class="{selected: img === image && direct, right: img === image && !direct}"
+                                 ng-repeat="img in images" class="room img-responsive"/>
+                        </div>
+                        <i class="room-click"  ng-click="setImage(1);setDirection(1);"></i>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="room-header">
+                        <h4>房屋编号：{{room.id}}</h4>
+                        <h4>{{room.roomName}}&nbsp;&nbsp;&nbsp;<small><dfn style="color: #f30;">￥</dfn><span style="color: #f30; font-size: 30px; font-family: Tahoma;">{{room.price}}</span></small></h4>
+                        <H4>{{room.address}}</H4>
+                        <p style="margin-top: 20px; font-size: 14px; line-height: 25px;">{{room.description}}</p>
+                    </div>
+
+                </div>
+            </div>
+            <!--<div class="col-xs-12" style=" margin-top: 10px; border: 1px solid red; padding-left: 0; padding-right: 0;">-->
+                <!--<div class="col-sm-8 pull-left" style="background: #FFFFFF;>-->
+                    <!--<h3>房屋详情</h3>-->
+                <!--</div>-->
+                <!--<div class="col-sm-4 pull-right" style="background: #FFFFFF; ">-->
+                    <!--<h3>房主信息</h3>-->
+                <!--</div>-->
+            <!--</div>
+            -->
+            <div class="col-xs-12" style="padding-left: 0; padding-right: 0; padding-top: 10px;">
+                <div class="col-md-8" style="background: #FFFFFF;">
+                    <div class="col-xs-12">
+                        <h4 style="color: #f30;">房屋详情</h4>
+                        <div class="divider"></div>
+                        <div class="column-info">
+                            <div class="side-box side-box-one">
+                                <i class="icon-supplies"></i>
+                                <h4>设施服务</h4>
+                            </div>
+                            <div class="content-box">
+                                <ul>
+                                    <li class="icon-wifi" ng-class="{'icon-not':room.roomSupplies.IsWifi === 0}">无线网络</li>
+                                    <li class="icon-hotwater" ng-class="{'icon-not':room.roomSupplies.IsHot === 0}">全天热水</li>
+                                    <li class="icon-airconditioner" ng-class="{'icon-not':room.roomSupplies.IsAirConditoner === 0}">空调</li>
+                                    <li class="icon-icebox" ng-class="{'icon-not':room.roomSupplies.IsAceBox === 0}">冰箱</li>
+                                    <li class="icon-toiletries" ng-class="{'icon-not':room.roomSupplies.IsToiletries === 0}">洗漱用品</li>
+                                    <li class="icon-washer" ng-class="{'icon-not':room.roomSupplies.IsWasher === 0}">洗衣机</li>
+                                    <li class="icon-television" ng-class="{'icon-not':room.roomSupplies.IsTelevision === 0}">电视</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="column-info">
+                            <div class="side-box side-box-two">
+                                <i class="icon-hint"></i>
+                                <h4>入住提示</h4>
+                            </div>
+                            <div class="content-box">
+                                <p>{{room.tips}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12" style="margin-top: 10px;">
+                        <h4 style="color: #f60;">本屋点评</h4>
+                        <div class="my-bar">全部（2）</div>
+                        <div class="comment-list">
+                            <ul>
+                                <li class="comment-group">
+                                    <div class="user-avatar">
+                                        <img src="../img/userAvatar.png" alt="房客图片">
+                                    </div>
+                                    <div class="comment-main">
+                                        <div class="comment-content">
+                                            一直就喜欢loft，终于如愿以偿，孩子特别开心，上上下下的，房间布置的很精致，特别有感觉，地理位置也不错，
+                                            离地铁站也不远，大概走十多分钟的路程，从北京西站坐7号线地铁百子湾A3出口，一直直行，中途路过加油站，建
+                                            设银行，社区超市，直到走到正大优鲜左手拐弯，拐弯后就可以看到啦，很方便！楼下有赛洛城超市，晚上下楼就有
+                                            烧烤，很不错的撒！以后来北京出差，我就想住这里，和公司说下，我不嫌远（公司在团结湖），哇嘎嘎😝，房东很
+                                            好，保洁大姐也很热心，总之推荐推荐！
+                                        </div>
+                                        <div class="comment-photo">
+
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="comment-group">
+                                    <div class="user-avatar">
+                                        <img src="../img/userAvatar.png" alt="房客图片">
+                                    </div>
+                                    <div class="comment-main">
+                                        <div class="comment-content">
+                                            房主很贴心，服务很好，随时有需求随时回应！屋子很干净很温馨，可以做饭，还可以带狗狗！屋里东西很齐全，
+                                            有家的感觉！暂时没发现什么缺点，下次有机会还会来住！
+                                        </div>
+                                        <div class="comment-photo">
+
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="col-md-4" style="background: #FFFFFF;">
+                    <h4 style="color: #f30;"></h4>
+                    <div>房主: {{room.creator}}</div>
+                    <div>创建时间：{{room.createDate}}</div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+
+    </div>
+</div>

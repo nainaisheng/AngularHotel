@@ -1,0 +1,21 @@
+{
+  "id": 0,
+  "name": "清风苑",
+  "price": 100,
+  "images": [
+    "img/rooms/0.jpg",
+    "img/rooms/1.jpg",
+    "img/rooms/2.jpg",
+    "img/rooms/3.jpg",
+    "img/rooms/4.jpg",
+    "img/rooms/5.jpg",
+    "img/rooms/6.jpg"
+  ],
+  "snippet": "舒适，安静，清新怡人",
+  "owner": "刘强",
+  "city": "湖南",
+  "createTime": "2016/5/1",
+  "updateTime": "2016/9/1",
+  "description": "房屋位于东京都内居住区，居住安静温馨。房屋设备齐全，周边交通便利。离景点和闹事区只有几公里之遥。另有私家车提供，出行方便（机场，新干线东京地区接送可）。房东还可提供都内导游服务，价格面议。轨道交通便利，自驾车需要点人工费后也可随意使用。 "
+
+}

@@ -1,0 +1,21 @@
+{
+  "id": 3,
+  "name": "清风苑",
+  "price": 100,
+  "images": [
+    "img/rooms/0.jpg",
+    "img/rooms/1.jpg",
+    "img/rooms/2.jpg",
+    "img/rooms/3.jpg",
+    "img/rooms/4.jpg",
+    "img/rooms/5.jpg",
+    "img/rooms/6.jpg"
+  ],
+  "snippet": "舒适，安静，清新怡人",
+  "owner": "刘强",
+  "city": "湖南",
+  "createTime": "2016/5/1",
+  "updateTime": "2016/9/1",
+  "description": "舒适怡人舒适怡人舒适怡人舒适怡人舒适怡人舒适怡人舒适怡人舒适怡人舒适怡人舒适怡人舒适怡人舒适怡人舒适怡人舒适怡人舒适怡人舒适怡人"
+
+}
