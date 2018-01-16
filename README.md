@@ -1,4 +1,4 @@
-#AngularHotel
+# AngularHotel
 
 本系统作为蚌壳民宿平台项目的web资源管理端，使用ng开发的单页应用系统
 主要内容是：
@@ -36,9 +36,34 @@
 * jdk1.8
 * mysql5.6
 
+## 导入说明
 
-##说明
-2018年1月21日 - 改为maven项目
+导入项目设置如下相关的东西,
+
+![](http://of8rkrh1w.bkt.clouddn.com/%E9%80%89%E5%8C%BA_008.png)
+
+![](http://of8rkrh1w.bkt.clouddn.com/2018/1/16%E9%80%89%E5%8C%BA_009.png)
+
+![](http://of8rkrh1w.bkt.clouddn.com/2018/1/16%E9%80%89%E5%8C%BA_010.png)
+
+![](http://of8rkrh1w.bkt.clouddn.com/2018/1/16%E9%80%89%E5%8C%BA_011.png)
+
+![](http://of8rkrh1w.bkt.clouddn.com/2018/1/16%E9%80%89%E5%8C%BA_012.png)
+
+![](http://of8rkrh1w.bkt.clouddn.com/2018/1/16%E9%80%89%E5%8C%BA_013.png)
+
+![](http://of8rkrh1w.bkt.clouddn.com/2018/1/16%E9%80%89%E5%8C%BA_014.png)
+
+
+导入sql,更改连接信息
+就可以运行了!!!!
+
+不懂的可以参看一下我的文章[使用idea创建web项目](http://blog.csdn.net/jsu_9207/article/details/51271799)
+
+
+## 说明
+
+2018年1月21日 - 计划改为maven项目
 
 
 
