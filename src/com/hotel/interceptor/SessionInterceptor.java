@@ -59,9 +59,9 @@ public class SessionInterceptor extends HandlerInterceptorAdapter{
 
                 if (!url.contains("/user/login")){
                     HttpSession session = request.getSession();
-                    System.out.println("验证session之前");
+                    //System.out.println("验证session之前");
                     if (session.getAttribute(Constant.USERINFO)==null){
-                        System.out.println("验证session之后");
+                        //System.out.println("验证session之后");
                         response.sendRedirect("/session/error");
                         return false;
                     }
