@@ -5,6 +5,8 @@ import com.nona.hotel.angularhotel.util.Constant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +17,7 @@ import java.util.List;
 /**
  * Created by root on 2016/8/17/0017.
  */
-public class SessionInterceptor extends HandlerInterceptorAdapter{
+public class SessionInterceptor implements HandlerInterceptor{
     private static final Logger logger = LoggerFactory.getLogger(SessionInterceptor.class);
 
     private List<String> excludeMappingUrl;
@@ -73,6 +75,11 @@ public class SessionInterceptor extends HandlerInterceptorAdapter{
     }
 
     @Override
+    public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
+
+    }
+
+    @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         boolean result = isStaticFile(request.getRequestURI());
         if (!result){
@@ -83,7 +90,7 @@ public class SessionInterceptor extends HandlerInterceptorAdapter{
 
 
         }
-        super.afterCompletion(request, response, handler, ex);
+        //super.afterCompletion(request, response, handler, ex);
     }
 
 
