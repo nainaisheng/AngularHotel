@@ -8,14 +8,21 @@ import com.nona.hotel.angularhotel.service.AreaService;
 import com.nona.hotel.angularhotel.util.Pager;
 import com.nona.hotel.angularhotel.util.QiNiuPhotoUploadUtil;
 import com.nona.hotel.angularhotel.util.TimeFormatUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -32,6 +39,8 @@ import java.util.List;
 @Transactional(rollbackFor = Exception.class)
 public class AreaServiceImpl implements AreaService {
 
+    private static Logger logger = LoggerFactory.getLogger(AreaServiceImpl.class);
+
     @Autowired
     private AreaMapper areaMapper;
 
@@ -46,20 +55,23 @@ public class AreaServiceImpl implements AreaService {
      * @return
      */
     @Override
-    public int uploadPhoto(CommonsMultipartFile file, AreaPhoto areaPhoto) {
+    public int uploadPhoto(MultipartFile file, AreaPhoto areaPhoto) {
         //文件名
         String filename = System.currentTimeMillis() + file.getOriginalFilename();
-        //上传图片
-        PhotoResult result = qiNiuPhotoUploadUtil.uploadPhoto(file.getOriginalFilename(), filename);
-        if (result.getSuccess() == 1) {
-            areaPhoto.setUrl(result.getUrl());
-            areaPhoto.setCreateDate(TimeFormatUtil.formatTime());
-            areaPhoto.setOperateDate(TimeFormatUtil.formatTime());
-            int insertCount = areaMapper.insertAreaPhoto(areaPhoto);
+        try {
+            //上传图片
+            PhotoResult result = qiNiuPhotoUploadUtil.uploadPhoto(file.getBytes(), filename);
+            if (result.getSuccess() == 1) {
+                areaPhoto.setUrl(result.getUrl());
+                areaPhoto.setCreateDate(TimeFormatUtil.formatTime());
+                areaPhoto.setOperateDate(TimeFormatUtil.formatTime());
+                int insertCount = areaMapper.insertAreaPhoto(areaPhoto);
 
-            return insertCount;
+                return insertCount;
+            }
+        } catch (IOException e) {
+            logger.error("{}.uploadPhoto方法上传文件失败,错误原因:{}",AreaServiceImpl.class.getCanonicalName(),e.getMessage());
         }
-
         return 0;
     }
 
@@ -94,7 +106,7 @@ public class AreaServiceImpl implements AreaService {
      * @return
      */
     @Override
-    public Area getProvince(HashMap<String, Object> paramMap) {
+    public Area getProvince(Map<String, Object> paramMap) {
         Area area = areaMapper.getProvinces(paramMap);
         return area;
     }
@@ -133,7 +145,7 @@ public class AreaServiceImpl implements AreaService {
      * @return
      */
     @Override
-    public List<AreaPhoto> getAllAreaPhotoList(Pager<AreaPhoto> pager, HashMap<String, Object> paramMap) {
+    public List<AreaPhoto> getAllAreaPhotoList(Pager<AreaPhoto> pager, Map<String, Object> paramMap) {
         List<AreaPhoto> photoList = null;
         int count = areaMapper.getAllAreaPhotoCount();
         pager.setTotalCount(count);
@@ -154,7 +166,7 @@ public class AreaServiceImpl implements AreaService {
      * @return
      */
     @Override
-    public List<AreaPhoto> getPartAreaPhotoList(Pager<AreaPhoto> pager, HashMap<String, Object> paramMap) {
+    public List<AreaPhoto> getPartAreaPhotoList(Pager<AreaPhoto> pager, Map<String, Object> paramMap) {
         List<AreaPhoto> photoList = null;
         int count = 0;
         String areaId = areaMapper.getAreaId((String) paramMap.get("userId"));

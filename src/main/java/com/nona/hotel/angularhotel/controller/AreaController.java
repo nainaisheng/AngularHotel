@@ -10,12 +10,13 @@ import com.nona.hotel.angularhotel.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * com.nona.hotel.angularhotel.controller
@@ -44,20 +45,20 @@ public class AreaController {
      */
     @RequestMapping(value = "/area/uploadPhotos", method = RequestMethod.POST)
     @ResponseBody
-    public Result uploadPhoto(@RequestParam CommonsMultipartFile file, @RequestParam String areaId, HttpSession session) throws IOException {
+    public Result uploadPhoto(@RequestParam MultipartFile file, @RequestParam String areaId, HttpSession session) throws IOException {
         User user = (User) session.getAttribute(Constant.USERINFO);
         AreaPhoto areaPhoto = new AreaPhoto();
         areaPhoto.setId(UUIDUtil.getUUID());
         areaPhoto.setAreaId(areaId);
         areaPhoto.setCreator(user.getRealName());
-        if (file.getSize()>0){
+        if (!file.isEmpty()){
             int result = areaService.uploadPhoto(file, areaPhoto);
 
             if (result>0){
-               return new Result("success", Constant.DEAL_SUCCESS);
+               return new Result(Constant.SUCCESS_CODE, Constant.DEAL_SUCCESS);
             }
         }
-        return new Result("fail", Constant.DEAL_FAIL);
+        return new Result(Constant.FAIL_CODE, Constant.DEAL_FAIL);
     }
 
 
@@ -76,7 +77,7 @@ public class AreaController {
         List<Area> areaList = null;
         AreaUtils areaUtils = new AreaUtils();
         User user = (User) session.getAttribute(Constant.USERINFO);
-        HashMap<String,Object> paramMap = new HashMap<String, Object>();
+        HashMap<String,Object> paramMap = new HashMap<>();
         paramMap.put("userId",user.getId());
         int userRoleTypeId = user.getUserRoleTypeId();
         //全国级别
@@ -103,7 +104,7 @@ public class AreaController {
                 areaUtils.setParentArea(area);
             }
         }
-        return new Result("success",Constant.DEAL_SUCCESS,areaUtils);
+        return new Result(Constant.SUCCESS_CODE,Constant.DEAL_SUCCESS,areaUtils);
     }
 
     /**
@@ -118,10 +119,10 @@ public class AreaController {
         Area area = new Area();
         area.setId(id);
         List<Area> sonArea = areaService.getSonArea(area);
-        if (sonArea!=null&&sonArea.size()>0) {
-            return new Result("success", Constant.DEAL_SUCCESS, sonArea);
+        if (sonArea!=null&&!sonArea.isEmpty()) {
+            return new Result(Constant.SUCCESS_CODE, Constant.DEAL_SUCCESS, sonArea);
         }
-        return new Result("fail",Constant.DEAL_FAIL);
+        return new Result(Constant.FAIL_CODE,Constant.DEAL_FAIL);
     }
 
     /**
@@ -137,11 +138,11 @@ public class AreaController {
     @RequestMapping(value = "/area/photos",method = RequestMethod.POST)
     @ResponseBody
     public DataTableResult<AreaPhoto> getPhotoList(@RequestBody Pager<AreaPhoto> pager, HttpSession session){
-        DataTableResult<AreaPhoto> result = new DataTableResult<AreaPhoto>();
+        DataTableResult<AreaPhoto> result = new DataTableResult<>();
         List<AreaPhoto> photoList  = null;
         User user = (User) session.getAttribute(Constant.USERINFO);
         int userRoleTypeId = user.getUserRoleTypeId();
-        HashMap<String, Object> paramMap = new HashMap<String, Object>();
+        Map<String, Object> paramMap = new HashMap<>();
         if (userRoleTypeId==3){
             photoList = areaService.getAllAreaPhotoList(pager, paramMap);
         }
@@ -149,7 +150,7 @@ public class AreaController {
             paramMap.put("userId",user.getId());
             photoList = areaService.getPartAreaPhotoList(pager,paramMap);
         }
-        if (photoList!=null&&photoList.size()>0){
+        if (photoList!=null&&!photoList.isEmpty()){
             for (AreaPhoto areaPhoto : photoList) {
                 areaPhoto.setCreateDate(TimeFormatUtil.timeFormat(areaPhoto.getCreateDate()));
             }
@@ -173,9 +174,9 @@ public class AreaController {
     public Result deletePhoto(@RequestBody String[] photoId,HttpSession session ){
         int result = areaService.deletePhoto(photoId);
         if (result==photoId.length){
-            return new Result("success",Constant.DEAL_SUCCESS);
+            return new Result(Constant.SUCCESS_CODE,Constant.DEAL_SUCCESS);
         }
-        return new Result("fail",Constant.DEAL_FAIL);
+        return new Result(Constant.FAIL_CODE,Constant.DEAL_FAIL);
     }
 
     /**
@@ -189,9 +190,9 @@ public class AreaController {
     public Result getAreaById(@PathVariable String id,HttpSession session){
         Area area = areaService.getAreaById(id);
         if (area!=null){
-            return new Result("success",Constant.DEAL_SUCCESS,area);
+            return new Result(Constant.SUCCESS_CODE,Constant.DEAL_SUCCESS,area);
         }
-        return new Result("fail",Constant.DEAL_FAIL);
+        return new Result(Constant.FAIL_CODE,Constant.DEAL_FAIL);
     }
 
 
