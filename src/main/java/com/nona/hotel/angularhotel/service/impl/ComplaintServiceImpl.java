@@ -8,8 +8,8 @@ import com.nona.hotel.angularhotel.util.Pager;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * com.nona.hotel.angularhotel.service.impl
@@ -34,16 +34,14 @@ public class ComplaintServiceImpl implements ComplaintService {
      * @return
      */
     @Override
-    public List<Complaint> getSolvedComplaint(Pager<Complaint> pager, HashMap<String, Object> paramMap) {
+    public List<Complaint> getSolvedComplaint(Pager<Complaint> pager, Map<String, Object> paramMap) {
         List<Complaint> complaintList= null;
         int count = complaintMapper.getSolvedComplaintCount(paramMap);
-        System.out.println("count: "+count);
         pager.setTotalCount(count);
         if (count>0){
             paramMap.put("start",pager.getStart());
             paramMap.put("limit",pager.getLength());
             complaintList = complaintMapper.getSolvedComplaint(paramMap);
-            System.out.println(complaintList);
         }
         return complaintList;
     }
@@ -55,13 +53,11 @@ public class ComplaintServiceImpl implements ComplaintService {
      * @return
      */
     @Override
-    public List<Complaint> getPartSolvedComplaint(Pager<Complaint> pager, HashMap<String, Object> paramMap) {
+    public List<Complaint> getPartSolvedComplaint(Pager<Complaint> pager, Map<String, Object> paramMap) {
         List<Complaint> complaintList= null;
         String areaId = areaMapper.getAreaId((String) paramMap.get("userId"));
-        System.out.println("areaId: "+areaId);
         paramMap.put("areaId",areaId);
         int count = complaintMapper.getPartSolvedComplaintCount(paramMap);
-        System.out.println("count: "+count);
         pager.setTotalCount(count);
         if (count>0){
             paramMap.put("start",pager.getStart());
@@ -72,15 +68,13 @@ public class ComplaintServiceImpl implements ComplaintService {
     }
 
     @Override
-    public List<Complaint> getHandingComplaint(Pager<Complaint> pager, HashMap<String, Object> paramMap) {
-        List<Complaint> handingComplaint = getSolvedComplaint(pager, paramMap);
-        return handingComplaint;
+    public List<Complaint> getHandingComplaint(Pager<Complaint> pager, Map<String, Object> paramMap) {
+        return getSolvedComplaint(pager, paramMap);
     }
 
     @Override
-    public List<Complaint> getPartHandingComplaint(Pager<Complaint> pager, HashMap<String, Object> paramMap) {
-        List<Complaint> complaintList = getPartSolvedComplaint(pager, paramMap);
-        return complaintList;
+    public List<Complaint> getPartHandingComplaint(Pager<Complaint> pager, Map<String, Object> paramMap) {
+        return getPartSolvedComplaint(pager, paramMap);
     }
 
     @Override
@@ -92,9 +86,6 @@ public class ComplaintServiceImpl implements ComplaintService {
     @Override
     public boolean editHandingById(Complaint complaint) {
         int result = complaintMapper.updateComplaintState(complaint);
-        if (result==1){
-            return true;
-        }
-        return false;
+        return result == 1;
     }
 }

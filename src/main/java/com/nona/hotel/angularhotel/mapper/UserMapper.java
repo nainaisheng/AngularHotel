@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * com.nona.hotel.angularhotel.mapper
@@ -28,21 +29,21 @@ public interface UserMapper {
 
     int getAllTenantsCount();
 
-    List<User> getAllTenants(HashMap<String, Object> paramMap);
+    List<User> getAllTenants(Map<String, Object> paramMap);
 
-    int getPartTenantsCount(HashMap<String, Object> paramMap);
+    int getPartTenantsCount(Map<String, Object> paramMap);
 
-    List<User> getPartTenants(HashMap<String, Object> paramMap);
+    List<User> getPartTenants(Map<String, Object> paramMap);
 
     User getUserById(String id);
 
     int getAllOwnersCount();
 
-    List<User> getPartOwners(HashMap<String, Object> paramMap);
+    List<User> getPartOwners(Map<String, Object> paramMap);
 
-    List<User> getAllOwners(HashMap<String, Object> paramMap);
+    List<User> getAllOwners(Map<String, Object> paramMap);
 
-    int getPartOwnersCount(HashMap<String, Object> paramMap);
+    int getPartOwnersCount(Map<String, Object> paramMap);
 
     int insert(User user);
 }

@@ -45,7 +45,7 @@ public class RoomController {
         List<Room> roomList =null;
         DataTablesResult tableResult = new DataTablesResult();
         User user = (User) session.getAttribute(Constant.USERINFO);
-        HashMap<String, Object> paramMap = new HashMap<String, Object>();
+        Map<String, Object> paramMap = new HashMap<>();
         int roleTypeId = user.getUserRoleTypeId();
         if (roleTypeId == 3){
             roomList = roomService.getAllRoom(pager,paramMap);
@@ -54,7 +54,7 @@ public class RoomController {
             paramMap.put("userId",user.getId());
             roomList = roomService.getPartRoom(pager, paramMap);
         }
-        if (roomList.size()>0) {
+        if (roomList != null && !roomList.isEmpty()) {
             for (Room room : roomList) {
                 room.setCreateDate(TimeFormatUtil.timeFormat(room.getCreateDate()));
             }
@@ -94,7 +94,7 @@ public class RoomController {
     @RequestMapping(value = "/rooms/delete",method = RequestMethod.POST)
     @ResponseBody
     public Result deleteRoom(@RequestBody String[] id,HttpSession session){
-       Map<String,String[]> roomsId = new HashMap<String, String[]>();
+       Map<String,String[]> roomsId = new HashMap<>();
         roomsId.put("roomsId",id);
         int result = roomService.deleteRoomsById(roomsId);
         if (result== id.length){
@@ -116,16 +116,15 @@ public class RoomController {
     @RequestMapping("/owner/rooms/{ownerId}")
     @ResponseBody
     public DataTableResult<Room> getRoomByOwnerId(@RequestBody Pager<Room> pager, @PathVariable String ownerId, HttpSession session){
-        List<Room> roomList =null;
+        List<Room> roomList;
         DataTableResult<Room> tableResult = new DataTableResult();
-        User user = (User) session.getAttribute(Constant.USERINFO);
-        HashMap<String, Object> paramMap = new HashMap<String, Object>();
+        Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("ownerId",ownerId);
         roomList = roomService.getRoomByOwnerId(pager,paramMap);
 
         tableResult.setDraw(pager.getDraw());
         tableResult.setRecordsTotal(pager.getTotalCount());
-        if (roomList!=null&&roomList.size()>0) {
+        if (roomList!=null&&!roomList.isEmpty()) {
             tableResult.setRecordsFiltered(roomList.size());
             tableResult.setData(roomList);
         }else {

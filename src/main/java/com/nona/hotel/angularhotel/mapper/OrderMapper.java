@@ -20,14 +20,14 @@ import java.util.Map;
 @Mapper
 public interface OrderMapper {
 
-    int getOutstandingOrderCount(HashMap<String, Object> paramMap);
+    int getOutstandingOrderCount(Map<String, Object> paramMap);
 
-    List<Order> getOutstandingOrders(HashMap<String, Object> paramMap);
+    List<Order> getOutstandingOrders(Map<String, Object> paramMap);
 
 
-    int getPartOutStandingOrderCount(HashMap<String, Object> areaId);
+    int getPartOutStandingOrderCount(Map<String, Object> areaId);
 
-    List<Order> getPartOutStandingOrder(HashMap<String, Object> paramMap);
+    List<Order> getPartOutStandingOrder(Map<String, Object> paramMap);
 
     int getAllFinishedOrderCount();
 

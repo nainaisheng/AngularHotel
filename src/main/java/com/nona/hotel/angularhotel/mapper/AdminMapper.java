@@ -5,8 +5,8 @@ import com.nona.hotel.angularhotel.pojo.Manager;
 import com.nona.hotel.angularhotel.pojo.User;
 import org.apache.ibatis.annotations.Mapper;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface AdminMapper {
@@ -15,7 +15,7 @@ public interface AdminMapper {
 
 	Manager getManagerInfo(Manager manager);
 
-	List<User> getAdminList(HashMap<String, Object> paramMap);
+	List<User> getAdminList(Map<String, Object> paramMap);
 
 	int getAdminCount();
 
@@ -25,9 +25,9 @@ public interface AdminMapper {
 
 	int getSuperAdminCount();
 
-	List<User> getSuperAdminList(HashMap<String, Object> paramMap);
+	List<User> getSuperAdminList(Map<String, Object> paramMap);
 
 	int getAreaAdminsCount();
 
-	List<User> getAreaAdminsList(HashMap<String, Object> paramMap);
+	List<User> getAreaAdminsList(Map<String, Object> paramMap);
 }

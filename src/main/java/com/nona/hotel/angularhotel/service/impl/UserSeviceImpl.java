@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * com.nona.hotel.angularhotel.service.impl
@@ -85,7 +86,7 @@ public class UserSeviceImpl implements UserService {
      * @return
      */
     @Override
-    public List<User> getAllTenants(Pager<User> pager, HashMap<String, Object> paramMap) {
+    public List<User> getAllTenants(Pager<User> pager, Map<String, Object> paramMap) {
 
         List<User> userList = null;
         int tenantsCount = userMapper.getAllTenantsCount();
@@ -105,7 +106,7 @@ public class UserSeviceImpl implements UserService {
      * @return  房客集合
      */
     @Override
-    public List<User> getPartTenants(Pager<User> pager, HashMap<String, Object> paramMap) {
+    public List<User> getPartTenants(Pager<User> pager, Map<String, Object> paramMap) {
         List<User> userList = null;
 
         try {
@@ -144,7 +145,7 @@ public class UserSeviceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAllOwners(Pager<User> pager, HashMap<String, Object> paramMap) {
+    public List<User> getAllOwners(Pager<User> pager, Map<String, Object> paramMap) {
         List<User> userList = null;
         try {
             int ownersCount = userMapper.getAllOwnersCount();
@@ -169,7 +170,7 @@ public class UserSeviceImpl implements UserService {
      * @return
      */
     @Override
-    public List<User> getPartOwners(Pager<User> pager, HashMap<String, Object> paramMap) {
+    public List<User> getPartOwners(Pager<User> pager, Map<String, Object> paramMap) {
         List<User> userList = null;
 
         try {

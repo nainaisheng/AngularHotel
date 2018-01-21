@@ -4,8 +4,8 @@ import com.nona.hotel.angularhotel.pojo.Area;
 import com.nona.hotel.angularhotel.pojo.AreaPhoto;
 import org.apache.ibatis.annotations.Mapper;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * com.nona.hotel.angularhotel.mapper
@@ -24,7 +24,7 @@ public interface AreaMapper {
 
     List<Area> getAllProvinces();
 
-    Area getProvinces(HashMap<String, Object> paramMap);
+    Area getProvinces(Map<String, Object> paramMap);
 
     Area getAreaById(String areaId);
 
@@ -36,15 +36,15 @@ public interface AreaMapper {
 
     int getAllAreaPhotoCount();
 
-    List<AreaPhoto> getAllAreaPhoto(HashMap<String, Object> paramMap);
+    List<AreaPhoto> getAllAreaPhoto(Map<String, Object> paramMap);
 
-    int getPartPhotoCount(HashMap<String, Object> paramMap);
+    int getPartPhotoCount(Map<String, Object> paramMap);
 
-    List<AreaPhoto> getPartAreaPhoto(HashMap<String, Object> paramMap);
+    List<AreaPhoto> getPartAreaPhoto(Map<String, Object> paramMap);
 
-    int getPartPhotoCountByPro(HashMap<String, Object> paramMap);
+    int getPartPhotoCountByPro(Map<String, Object> paramMap);
 
-    List<AreaPhoto> getPartAreaPhotoByPro(HashMap<String, Object> paramMap);
+    List<AreaPhoto> getPartAreaPhotoByPro(Map<String, Object> paramMap);
 
 
     List<AreaPhoto> getPhotoByList(List<String> photos);

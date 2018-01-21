@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * com.nona.hotel.angularhotel.controller
@@ -28,7 +29,7 @@ public class UserController {
     private UserService userService;
 
     /**
-     * 修改用户信息前获取永不信息
+     * 修改用户信息前获取信息
      *
      * @param session
      * @return
@@ -37,8 +38,7 @@ public class UserController {
     @ResponseBody
     public User getUserInfo(HttpSession session) {
         User user = (User) session.getAttribute(Constant.USERINFO);
-        User users = new User();
-        users = userService.getUserById(user.getId());
+        User users = userService.getUserById(user.getId());
         users.setCreateDate(TimeFormatUtil.timeFormat(user.getCreateDate()));
         users.setOperateDate(TimeFormatUtil.timeFormat(user.getOperateDate()));
         return users;
@@ -64,7 +64,6 @@ public class UserController {
     @ResponseBody
     public Result updateUser(@RequestBody User user, HttpSession session) {
         int result = userService.updateUser(user);
-        System.out.println("result "+result);
         if (result>0){
             return new Result("success",Constant.DEAL_SUCCESS);
         }
@@ -103,7 +102,7 @@ public class UserController {
         DataTableResult<User> tableResult = new DataTableResult();
         List<User> userList = null;
         User user = (User) session.getAttribute(Constant.USERINFO);
-        HashMap<String, Object> paramMap = new HashMap<String, Object>();
+        Map<String, Object> paramMap = new HashMap<>();
         //超级管理员
         if (user.getUserRoleTypeId()==3){
             userList =  userService.getAllTenants(pager,paramMap);
@@ -112,7 +111,7 @@ public class UserController {
             paramMap.put("userId",user.getId());
             userList = userService.getPartTenants(pager, paramMap);
         }
-        if (userList!=null&&userList.size()>0) {
+        if (userList!=null&&!userList.isEmpty()) {
             for (User user1 : userList) {
                 user1.setCreateDate(TimeFormatUtil.timeFormat(user.getCreateDate()));
             }
@@ -126,7 +125,7 @@ public class UserController {
     }
 
     /**
-     * 删除用户 待实现  太复杂
+     * 不能物理闪,只能逻辑删
      * @param id
      * @param session
      * @return
@@ -150,7 +149,7 @@ public class UserController {
         DataTableResult<User> tableResult = new DataTableResult();
         List<User> userList = null;
         User user = (User) session.getAttribute(Constant.USERINFO);
-        HashMap<String, Object> paramMap = new HashMap<String, Object>();
+        Map<String, Object> paramMap = new HashMap<>();
         if (user.getUserRoleTypeId() == 3) {
             userList = userService.getAllOwners(pager, paramMap);
         }
@@ -158,7 +157,7 @@ public class UserController {
             paramMap.put("userId", user.getId());
             userList = userService.getPartOwners(pager, paramMap);
         }
-        if (userList!=null&&userList.size() > 0) {
+        if (userList!=null&&!userList.isEmpty()) {
             for (User user1 : userList) {
                 user1.setCreateDate(TimeFormatUtil.timeFormat(user.getCreateDate()));
             }

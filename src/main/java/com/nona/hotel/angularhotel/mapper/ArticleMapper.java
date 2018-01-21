@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * com.jsu.mapper
@@ -22,11 +23,11 @@ public interface ArticleMapper {
 
     int getAllAreaArticleCount();
 
-    List<AreaArticle> getAllAreaArticleList(HashMap<String, Object> paramMap);
+    List<AreaArticle> getAllAreaArticleList(Map<String, Object> paramMap);
 
-    List<AreaArticle> getPartAreaArtilceList(HashMap<String, Object> paramMap);
+    List<AreaArticle> getPartAreaArtilceList(Map<String, Object> paramMap);
 
-    int getPartArticleCount(HashMap<String, Object> paramMap);
+    int getPartArticleCount(Map<String, Object> paramMap);
 
     AreaArticle getArticleById(String articleId);
 

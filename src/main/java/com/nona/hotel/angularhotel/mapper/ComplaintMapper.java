@@ -3,8 +3,8 @@ package com.nona.hotel.angularhotel.mapper;
 import com.nona.hotel.angularhotel.pojo.Complaint;
 import org.apache.ibatis.annotations.Mapper;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * com.nona.hotel.angularhotel.mapper
@@ -18,13 +18,13 @@ import java.util.List;
  */
 @Mapper
 public interface ComplaintMapper {
-    int getSolvedComplaintCount(HashMap<String, Object> paramMap);
+    int getSolvedComplaintCount(Map<String, Object> paramMap);
 
-    List<Complaint> getSolvedComplaint(HashMap<String, Object> paramMap);
+    List<Complaint> getSolvedComplaint(Map<String, Object> paramMap);
 
-    int getPartSolvedComplaintCount(HashMap<String, Object> paramMap);
+    int getPartSolvedComplaintCount(Map<String, Object> paramMap);
 
-    List<Complaint> getPartSolvedComplaint(HashMap<String, Object> paramMap);
+    List<Complaint> getPartSolvedComplaint(Map<String, Object> paramMap);
 
     Complaint getComplaintById(String id);
 

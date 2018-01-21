@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * com.nona.hotel.angularhotel.controller
@@ -47,9 +48,9 @@ public class ArticleContoller {
         article.setId(UUIDUtil.getUUID());
         int result = articleService.insertArticle(article);
         if (result>0){
-            return new Result("success",Constant.DEAL_SUCCESS);
+            return new Result(Constant.SUCCESS_CODE,Constant.DEAL_SUCCESS);
         }
-        return new Result("fail",Constant.DEAL_FAIL);
+        return new Result(Constant.FAIL_CODE,Constant.DEAL_FAIL);
     }
 
     /**
@@ -61,11 +62,11 @@ public class ArticleContoller {
     @RequestMapping(value = "/articles",method = RequestMethod.POST)
     @ResponseBody
     public DataTableResult<AreaArticle> getArticleList(@RequestBody Pager<AreaArticle> pager, HttpSession session){
-        DataTableResult<AreaArticle> result = new DataTableResult<AreaArticle>();
+        DataTableResult<AreaArticle> result = new DataTableResult<>();
         List<AreaArticle> articleList  = null;
         User user = (User) session.getAttribute(Constant.USERINFO);
         int userRoleTypeId = user.getUserRoleTypeId();
-        HashMap<String, Object> paramMap = new HashMap<String, Object>();
+        Map<String, Object> paramMap = new HashMap<>();
         if (userRoleTypeId==3){
             articleList = articleService.getAllAreaArticleList(pager, paramMap);
         }
@@ -73,7 +74,7 @@ public class ArticleContoller {
             paramMap.put("userId",user.getId());
             articleList = articleService.getPartAreaArticleList(pager,paramMap);
         }
-        if (articleList!=null&&articleList.size()>0){
+        if (articleList!=null&&!articleList.isEmpty()){
             for (AreaArticle article : articleList) {
                 article.setCreateDate(TimeFormatUtil.timeFormat(article.getCreateDate()));
             }
@@ -99,10 +100,10 @@ public class ArticleContoller {
         AreaArticle article = articleService.getArticleById(id);
         if (article!=null){
             article.setCreateDate(TimeFormatUtil.timeFormat(article.getCreateDate()));
-            return new Result("success", Constant.DEAL_SUCCESS,article);
+            return new Result(Constant.SUCCESS_CODE, Constant.DEAL_SUCCESS,article);
 
         }
-        return new Result("fail",Constant.DEAL_FAIL);
+        return new Result(Constant.FAIL_CODE,Constant.DEAL_FAIL);
     }
 
     /**
@@ -121,9 +122,9 @@ public class ArticleContoller {
         article.setOperateDate(article.getEditDate());
         int result = articleService.editArticle(article);
         if (result>0){
-           return new Result("success",Constant.DEAL_SUCCESS);
+           return new Result(Constant.SUCCESS_CODE,Constant.DEAL_SUCCESS);
         }
-        return new Result("fail",Constant.DEAL_FAIL);
+        return new Result(Constant.FAIL_CODE,Constant.DEAL_FAIL);
     }
 
     /**
@@ -138,9 +139,9 @@ public class ArticleContoller {
     public Result deleteArticle(@RequestBody String[] articles,HttpSession session){
         int result = articleService.deleteArticle(articles);
         if (result==articles.length){
-            return new Result("success",Constant.DEAL_SUCCESS);
+            return new Result(Constant.SUCCESS_CODE,Constant.DEAL_SUCCESS);
         }
-        return new Result("fail",Constant.DEAL_FAIL);
+        return new Result(Constant.FAIL_CODE,Constant.DEAL_FAIL);
     }
 
 

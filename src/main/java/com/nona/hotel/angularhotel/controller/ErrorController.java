@@ -14,7 +14,6 @@ public class ErrorController {
 
     @RequestMapping("/404")
     public String page404(){
-        System.out.println("OK!!");
         return "404";
     }
 }

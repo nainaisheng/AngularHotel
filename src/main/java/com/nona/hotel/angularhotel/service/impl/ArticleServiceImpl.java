@@ -2,17 +2,17 @@ package com.nona.hotel.angularhotel.service.impl;
 
 
 import com.nona.hotel.angularhotel.mapper.AreaMapper;
+import com.nona.hotel.angularhotel.mapper.ArticleMapper;
 import com.nona.hotel.angularhotel.pojo.Area;
 import com.nona.hotel.angularhotel.pojo.AreaArticle;
 import com.nona.hotel.angularhotel.service.ArticleService;
-import com.nona.hotel.angularhotel.mapper.ArticleMapper;
 import com.nona.hotel.angularhotel.util.Pager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * com.nona.hotel.angularhotel.service.impl
@@ -41,7 +41,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<AreaArticle> getAllAreaArticleList(Pager<AreaArticle> pager, HashMap<String, Object> paramMap) {
+    public List<AreaArticle> getAllAreaArticleList(Pager<AreaArticle> pager, Map<String, Object> paramMap) {
         List<AreaArticle> articleList = null;
         int result = articleMapper.getAllAreaArticleCount();
         pager.setTotalCount(result);
@@ -63,7 +63,7 @@ public class ArticleServiceImpl implements ArticleService {
      * @return
      */
     @Override
-    public List<AreaArticle> getPartAreaArticleList(Pager<AreaArticle> pager, HashMap<String, Object> paramMap) {
+    public List<AreaArticle> getPartAreaArticleList(Pager<AreaArticle> pager, Map<String, Object> paramMap) {
         List<AreaArticle> articleList = null;
         int count = 0;
         String areaId = areaMapper.getAreaId((String) paramMap.get("userId"));

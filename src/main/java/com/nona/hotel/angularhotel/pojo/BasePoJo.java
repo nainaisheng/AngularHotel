@@ -1,5 +1,6 @@
 package com.nona.hotel.angularhotel.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -13,7 +14,7 @@ import java.util.Date;
  * @time: 2016/10/17
  */
 
-public class BasePoJo {
+public class BasePoJo implements Serializable {
 
     private String remark;  //注释
 

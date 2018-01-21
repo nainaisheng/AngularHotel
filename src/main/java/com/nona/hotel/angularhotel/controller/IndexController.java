@@ -52,7 +52,6 @@ public class IndexController {
     }
     @RequestMapping(value = "/session/error",method = RequestMethod.GET)
     public void redirectLogin(HttpServletResponse response) throws IOException {
-        System.out.println("成功进入");
         response.setCharacterEncoding("UTF-8");
         PrintWriter writer = response.getWriter();
         writer.print("window.location.href='localhost:8080'");

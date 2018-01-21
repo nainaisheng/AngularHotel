@@ -18,8 +18,8 @@ import java.util.Map;
  * @time: 2016/10/18
  */
 public interface RoomService {
-    List<Room> getAllRoom(Pager<Room> pager, HashMap<String, Object> paramMap);
-    List<Room> getPartRoom(Pager<Room> pager, HashMap<String, Object> paramMap);
+    List<Room> getAllRoom(Pager<Room> pager, Map<String, Object> paramMap);
+    List<Room> getPartRoom(Pager<Room> pager, Map<String, Object> paramMap);
 
     Room getRoomInfoById(String id);
 
@@ -27,6 +27,6 @@ public interface RoomService {
 
     boolean updateRoomState(Room room);
 
-    List<Room> getRoomByOwnerId(Pager<Room> pager, HashMap<String, Object> paramMap);
+    List<Room> getRoomByOwnerId(Pager<Room> pager, Map<String, Object> paramMap);
 
 }

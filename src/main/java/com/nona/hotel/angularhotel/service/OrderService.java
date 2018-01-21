@@ -3,8 +3,8 @@ package com.nona.hotel.angularhotel.service;
 import com.nona.hotel.angularhotel.pojo.Order;
 import com.nona.hotel.angularhotel.util.Pager;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * com.nona.hotel.angularhotel.service
@@ -18,16 +18,16 @@ import java.util.List;
  */
 public interface OrderService {
 
-    List<Order> getOutstandingOrder(Pager<Order> pager, HashMap<String, Object> paramMap);
+    List<Order> getOutstandingOrder(Pager<Order> pager, Map<String, Object> paramMap);
 
-    List<Order> getPartOutStandingOrder(Pager<Order> pager, HashMap<String, Object> paramMap);
+    List<Order> getPartOutStandingOrder(Pager<Order> pager, Map<String, Object> paramMap);
 
-    List<Order> getCompletedOrder(Pager<Order> pager, HashMap<String, Object> paramMap);
+    List<Order> getCompletedOrder(Pager<Order> pager, Map<String, Object> paramMap);
 
-    List<Order> getPartCompletedOrder(Pager<Order> pager, HashMap<String, Object> paramMap);
+    List<Order> getPartCompletedOrder(Pager<Order> pager, Map<String, Object> paramMap);
 
-    List<Order> getCanceledOrder(Pager<Order> pager, HashMap<String, Object> paramMap);
+    List<Order> getCanceledOrder(Pager<Order> pager, Map<String, Object> paramMap);
 
-    List<Order> getPartCanceledOrder(Pager<Order> pager, HashMap<String, Object> paramMap);
+    List<Order> getPartCanceledOrder(Pager<Order> pager, Map<String, Object> paramMap);
 
 }

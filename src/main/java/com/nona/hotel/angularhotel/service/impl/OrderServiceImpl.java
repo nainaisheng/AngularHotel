@@ -1,15 +1,15 @@
 package com.nona.hotel.angularhotel.service.impl;
 
 import com.nona.hotel.angularhotel.mapper.AreaMapper;
+import com.nona.hotel.angularhotel.mapper.OrderMapper;
 import com.nona.hotel.angularhotel.pojo.Order;
 import com.nona.hotel.angularhotel.service.OrderService;
 import com.nona.hotel.angularhotel.util.Pager;
-import com.nona.hotel.angularhotel.mapper.OrderMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * com.nona.hotel.angularhotel.service.impl
@@ -29,7 +29,7 @@ public class OrderServiceImpl implements OrderService{
     @Autowired
     private AreaMapper areaMapper;
     @Override
-    public List<Order> getOutstandingOrder(Pager<Order> pager, HashMap<String, Object> paramMap) {
+    public List<Order> getOutstandingOrder(Pager<Order> pager, Map<String, Object> paramMap) {
         List<Order> orderList = null;
         int result = orderMapper.getOutstandingOrderCount(paramMap);
         pager.setTotalCount(result);
@@ -44,7 +44,7 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public List<Order> getPartOutStandingOrder(Pager<Order> pager, HashMap<String, Object> paramMap) {
+    public List<Order> getPartOutStandingOrder(Pager<Order> pager, Map<String, Object> paramMap) {
         List<Order> orderList = null;
         String areaId = areaMapper.getAreaId((String) paramMap.get("userId"));
 
@@ -60,25 +60,25 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public List<Order> getCompletedOrder(Pager<Order> pager, HashMap<String, Object> paramMap) {
+    public List<Order> getCompletedOrder(Pager<Order> pager, Map<String, Object> paramMap) {
         List<Order> list = this.getOutstandingOrder(pager, paramMap);
         return list;
     }
 
     @Override
-    public List<Order> getPartCompletedOrder(Pager<Order> pager, HashMap<String, Object> paramMap) {
+    public List<Order> getPartCompletedOrder(Pager<Order> pager, Map<String, Object> paramMap) {
         List<Order> orderList = this.getPartOutStandingOrder(pager, paramMap);
         return orderList;
     }
 
     @Override
-    public List<Order> getCanceledOrder(Pager<Order> pager, HashMap<String, Object> paramMap) {
+    public List<Order> getCanceledOrder(Pager<Order> pager, Map<String, Object> paramMap) {
 
         return  this.getOutstandingOrder(pager,paramMap);
     }
 
     @Override
-    public List<Order> getPartCanceledOrder(Pager<Order> pager, HashMap<String, Object> paramMap) {
+    public List<Order> getPartCanceledOrder(Pager<Order> pager, Map<String, Object> paramMap) {
         return this.getPartOutStandingOrder(pager,paramMap);
     }
 

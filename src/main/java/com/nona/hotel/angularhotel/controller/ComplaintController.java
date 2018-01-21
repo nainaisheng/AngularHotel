@@ -18,6 +18,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * com.nona.hotel.angularhotel.controller
@@ -31,6 +32,7 @@ import java.util.List;
  */
 @Controller
 public class ComplaintController {
+    private String complaintStateId = this.complaintStateId;
     @Resource
     private ComplaintService complaintService;
 
@@ -44,8 +46,8 @@ public class ComplaintController {
     @ResponseBody
     public DataTableResult<Complaint> loadSolvedComplaint(@RequestBody Pager<Complaint> pager, HttpSession session){
 
-        HashMap<String, Object> paramMap = new HashMap<String, Object>();
-        paramMap.put("complaintStateId",1);
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put(this.complaintStateId,1);
 
         return getComplaint(pager,session,paramMap);
     }
@@ -59,8 +61,8 @@ public class ComplaintController {
     @RequestMapping("/complaints/handing")
     @ResponseBody
     public DataTableResult<Complaint> loadHandingComplaint(@RequestBody Pager<Complaint> pager,HttpSession session){
-        HashMap<String, Object> paramMap = new HashMap<String, Object>();
-        paramMap.put("complaintStateId",3);
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put(this.complaintStateId,3);
 
         return getComplaint(pager,session,paramMap);
     }
@@ -68,8 +70,8 @@ public class ComplaintController {
     @RequestMapping("/complaints/suspending")
     @ResponseBody
     public DataTableResult<Complaint> loadSuspendingComlaint(@RequestBody Pager<Complaint> pager ,HttpSession session){
-        HashMap<String, Object> paramMap = new HashMap<String, Object>();
-        paramMap.put("complaintStateId",2);
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put(this.complaintStateId,2);
         return getComplaint(pager,session,paramMap);
 
     }
@@ -79,9 +81,9 @@ public class ComplaintController {
     public Result loadComlaintInfo(@PathVariable String id){
         Complaint complaint = complaintService.getComplaintById(id);
         if (complaint!=null){
-            return new Result("success",Constant.DEAL_SUCCESS,complaint);
+            return new Result(Constant.SUCCESS_CODE,Constant.DEAL_SUCCESS,complaint);
         }
-        return new Result("fail",Constant.DEAL_FAIL);
+        return new Result(Constant.FAIL_CODE,Constant.DEAL_FAIL);
     }
 
     /**
@@ -104,9 +106,9 @@ public class ComplaintController {
 
         boolean result = complaintService.editHandingById(complaint);
         if (result){
-            return new Result("success",Constant.DEAL_SUCCESS);
+            return new Result(Constant.SUCCESS_CODE,Constant.DEAL_SUCCESS);
         }
-        return new Result("fail",Constant.DEAL_FAIL);
+        return new Result(Constant.FAIL_CODE,Constant.DEAL_FAIL);
     }
     @RequestMapping("/complaint/editSolved/{id}")
     @ResponseBody
@@ -119,12 +121,12 @@ public class ComplaintController {
         complaint.setOperateDate(complaint.getCheckDate());
         boolean result = complaintService.editHandingById(complaint);
         if (result) {
-            return new Result("success", Constant.DEAL_SUCCESS);
+            return new Result(Constant.SUCCESS_CODE, Constant.DEAL_SUCCESS);
         }
-        return new Result("fail", Constant.DEAL_FAIL);
+        return new Result(Constant.FAIL_CODE, Constant.DEAL_FAIL);
     }
 
-    public DataTableResult<Complaint> getComplaint(Pager<Complaint> pager,HttpSession session,HashMap<String,Object> paramMap){
+    public DataTableResult<Complaint> getComplaint(Pager<Complaint> pager,HttpSession session,Map<String,Object> paramMap){
         DataTableResult<Complaint> tableResult = new DataTableResult();
         List<Complaint> complaintList =null;
         User user = (User) session.getAttribute(Constant.USERINFO);
@@ -138,12 +140,12 @@ public class ComplaintController {
             complaintList = complaintService.getPartHandingComplaint(pager, paramMap);
         }
 
-        if (complaintList!=null&&complaintList.size()>0){
+        if (complaintList!=null&&!complaintList.isEmpty()){
 
-            for (int i = 0; i < complaintList.size(); i++) {
-                complaintList.get(i).setCreateDate(TimeFormatUtil.timeFormat(complaintList.get(i).getCreateDate()));
-                if (complaintList.get(i).getComplaintStateId()!=2){
-                    complaintList.get(i).setCheckDate(TimeFormatUtil.timeFormat(complaintList.get(i).getCheckDate()));
+            for (Complaint complaint : complaintList) {
+                complaint.setCreateDate(TimeFormatUtil.timeFormat(complaint.getCreateDate()));
+                if (complaint.getComplaintStateId() != 2) {
+                    complaint.setCheckDate(TimeFormatUtil.timeFormat(complaint.getCheckDate()));
                 }
 
             }

@@ -14,6 +14,10 @@ public class Constant {
     public static final String HOST_URL = "http://localhost:8080";
     //处理成功常量
     public static final String DEAL_SUCCESS = "DEAL_SUCCESS";
+    //处理成功code
+    public static final String SUCCESS_CODE = "success";
+    //失败code
+    public static final String FAIL_CODE = "fail";
     //处理失败常量
     public static final String DEAL_FAIL = "DEAL_FAIL";
     //跑出异常常量

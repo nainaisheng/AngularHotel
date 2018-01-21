@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * com.nona.hotel.angularhotel.controller
@@ -37,29 +38,29 @@ public class OrderController {
     /**
      * 查询未完成订单
      * 分区域和全部
-     * @param pager 分页对象
+     *
+     * @param pager   分页对象
      * @param session
      * @return
      */
-    @RequestMapping(value="/orders/outstanding",method = RequestMethod.POST)
+    @RequestMapping(value = "/orders/outstanding", method = RequestMethod.POST)
     @ResponseBody
-    public DataTableResult<Order> getOutstandingOrder(@RequestBody Pager<Order> pager, HttpSession session){
-        List<Order> orderList =null;
+    public DataTableResult<Order> getOutstandingOrder(@RequestBody Pager<Order> pager, HttpSession session) {
+        List<Order> orderList = null;
         DataTableResult<Order> tableResult = new DataTableResult();
         User user = (User) session.getAttribute(Constant.USERINFO);
-        HashMap<String, Object> paramMap = new HashMap<String, Object>();
-        paramMap.put("orderStatId",2);
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("orderStatId", 2);
         int roleTypeId = user.getUserRoleTypeId();
-        if (roleTypeId==3){
+        if (roleTypeId == 3) {
 
-            orderList = orderService.getOutstandingOrder(pager,paramMap);
+            orderList = orderService.getOutstandingOrder(pager, paramMap);
+        } else if (roleTypeId == 4) {
+            paramMap.put("userId", user.getId());
+            orderList = orderService.getPartOutStandingOrder(pager, paramMap);
         }
-        else if (roleTypeId == 4) {
-                paramMap.put("userId", user.getId());
-                orderList = orderService.getPartOutStandingOrder(pager, paramMap);
-            }
 
-        if (orderList!=null&&orderList.size()>0){
+        if (orderList != null && !orderList.isEmpty()) {
             for (Order order : orderList) {
                 order.setCreateDate(TimeFormatUtil.timeFormat(order.getCreateDate()));
             }
@@ -67,7 +68,7 @@ public class OrderController {
             tableResult.setDraw(pager.getDraw());
             tableResult.setRecordsTotal(pager.getTotalCount());
             tableResult.setRecordsFiltered(orderList.size());
-        }else {
+        } else {
             tableResult.setRecordsFiltered(0);
         }
         return tableResult;
@@ -76,29 +77,29 @@ public class OrderController {
     /**
      * 查询已完成订单
      * 分区域和全部
+     *
      * @param pager
      * @param session
      * @return
      */
-    @RequestMapping(value = "/orders/completed",method = RequestMethod.POST)
+    @RequestMapping(value = "/orders/completed", method = RequestMethod.POST)
     @ResponseBody
-    public DataTableResult<Order> getCompletedOrder(@RequestBody Pager<Order> pager, HttpSession session){
-        List<Order> orderList =null;
+    public DataTableResult<Order> getCompletedOrder(@RequestBody Pager<Order> pager, HttpSession session) {
+        List<Order> orderList = null;
         DataTableResult<Order> tableResult = new DataTableResult();
         User user = (User) session.getAttribute(Constant.USERINFO);
-        HashMap<String, Object> paramMap = new HashMap<String, Object>();
-        paramMap.put("orderStatId",1);
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("orderStatId", 1);
         int roleTypeId = user.getUserRoleTypeId();
-        if (roleTypeId==3){
+        if (roleTypeId == 3) {
 
-            orderList = orderService.getCompletedOrder(pager,paramMap);
-        }
-        else if (roleTypeId == 4) {
+            orderList = orderService.getCompletedOrder(pager, paramMap);
+        } else if (roleTypeId == 4) {
             paramMap.put("userId", user.getId());
             orderList = orderService.getPartCompletedOrder(pager, paramMap);
         }
 
-        if (orderList!=null&&orderList.size()>0){
+        if (orderList != null && !orderList.isEmpty()) {
             for (Order order : orderList) {
                 order.setCreateDate(TimeFormatUtil.timeFormat(order.getCreateDate()));
             }
@@ -106,7 +107,7 @@ public class OrderController {
             tableResult.setDraw(pager.getDraw());
             tableResult.setRecordsTotal(pager.getTotalCount());
             tableResult.setRecordsFiltered(orderList.size());
-        }else {
+        } else {
             tableResult.setData(null);
             tableResult.setDraw(pager.getDraw());
             tableResult.setRecordsTotal(pager.getTotalCount());
@@ -121,7 +122,7 @@ public class OrderController {
         List<Order> orderList = null;
         DataTableResult<Order> tableResult = new DataTableResult();
         User user = (User) session.getAttribute(Constant.USERINFO);
-        HashMap<String, Object> paramMap = new HashMap<String, Object>();
+        Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("orderStatId", 3);
         int roleTypeId = user.getUserRoleTypeId();
         if (roleTypeId == 3) {
@@ -131,7 +132,7 @@ public class OrderController {
             paramMap.put("userId", user.getId());
             orderList = orderService.getPartCanceledOrder(pager, paramMap);
         }
-        if (orderList != null && orderList.size() > 0) {
+        if (orderList != null && !orderList.isEmpty()) {
             for (Order order : orderList) {
                 order.setCreateDate(TimeFormatUtil.timeFormat(order.getCreateDate()));
             }

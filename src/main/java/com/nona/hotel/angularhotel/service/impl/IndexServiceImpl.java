@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * com.nona.hotel.angularhotel.service.impl
@@ -55,7 +56,7 @@ public class IndexServiceImpl implements IndexService {
     public HomeDisplay loadingPartInfo(String id) {
         HomeDisplay homeDisplay = new HomeDisplay();
         String areaId = areaMapper.getAreaId(id);
-        HashMap<String, Object> paramMap = new HashMap<String, Object>();
+        Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("areaId",areaId);
         paramMap.put("orderStatId",1);
         int partOwnersCount = userMapper.getPartOwnersCount(paramMap);

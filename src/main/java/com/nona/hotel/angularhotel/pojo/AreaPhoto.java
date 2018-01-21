@@ -16,7 +16,7 @@ public class AreaPhoto extends BasePoJo {
 
     private String url; //图片url
 
-    private String AreaId;  //地区ID
+    private String areaId;  //地区ID
 
     private Area area;
 
@@ -37,11 +37,11 @@ public class AreaPhoto extends BasePoJo {
     }
 
     public String getAreaId() {
-        return AreaId;
+        return areaId;
     }
 
     public void setAreaId(String areaId) {
-        AreaId = areaId;
+        this.areaId = areaId;
     }
 
     public Area getArea() {
@@ -57,8 +57,8 @@ public class AreaPhoto extends BasePoJo {
         return "AreaPhoto{" +
                 "id='" + id + '\'' +
                 ", url='" + url + '\'' +
-                ", AreaId='" + AreaId + '\'' +
-                ", area=" + area.toString() +
+                ", areaId='" + areaId + '\'' +
+                ", area=" + area +
                 '}';
     }
 }

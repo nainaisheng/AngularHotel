@@ -6,6 +6,7 @@ import com.nona.hotel.angularhotel.util.Pager;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * com.nona.hotel.angularhotel.service
@@ -25,17 +26,17 @@ public interface UserService {
 
     int updatePassword(User user);
 
-    List<User> getAllTenants(Pager<User> pager, HashMap<String, Object> paramMap);
+    List<User> getAllTenants(Pager<User> pager, Map<String, Object> paramMap);
 
-    List<User> getPartTenants(Pager<User> pager, HashMap<String, Object> paramMap);
+    List<User> getPartTenants(Pager<User> pager, Map<String, Object> paramMap);
 
     User getUserById(String id);
 
     int deleteUser(String[] id);
 
-    List<User> getAllOwners(Pager<User> pager, HashMap<String, Object> paramMap);
+    List<User> getAllOwners(Pager<User> pager, Map<String, Object> paramMap);
 
-    List<User> getPartOwners(Pager<User> pager, HashMap<String, Object> paramMap);
+    List<User> getPartOwners(Pager<User> pager, Map<String, Object> paramMap);
 
     void insert(User user);
 }

@@ -16,8 +16,7 @@ import java.util.Date;
 public class TimeFormatUtil {
 
     public static String formatTime(){
-        String format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        return format;
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
     }
 
     public static String timeFormat(String time){

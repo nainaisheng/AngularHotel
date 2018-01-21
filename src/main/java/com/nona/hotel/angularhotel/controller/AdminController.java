@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * com.nona.hotel.angularhotel.controller
@@ -51,19 +52,18 @@ public class AdminController {
         List<User> userList = null;
         DataTableResult tableResult = new DataTableResult();
         User user = (User) session.getAttribute(Constant.USERINFO);
-        HashMap<String, Object> paramMap = new HashMap<String, Object>();
+        Map<String, Object> paramMap = new HashMap<>();
         if (user.getUserRoleTypeId()==3) {
             userList = adminService.getAdminList(pager, paramMap);
-            if (userList!=null&&userList.size()>0) {
+            if (userList!=null&&!userList.isEmpty()) {
                 for (User user1 : userList) {
                     user1.setCreateDate(TimeFormatUtil.timeFormat(user1.getCreateDate()));
                 }
-
+                tableResult.setRecordsFiltered(userList.size());
+                tableResult.setData(userList);
             }
             tableResult.setDraw(pager.getDraw());
             tableResult.setDraw(pager.getDraw());
-            tableResult.setRecordsFiltered(userList.size());
-            tableResult.setData(userList);
         }
         tableResult.setRecordsTotal(pager.getTotalCount());
         return tableResult;
@@ -86,11 +86,11 @@ public class AdminController {
         if (user1.getUserRoleTypeId()==3){
             int result;
             result = adminService.insertAdmin(user);
-            if (result==1){
-                return new Result("success",Constant.DEAL_SUCCESS);
+            if (result == 1){
+                return new Result(Constant.SUCCESS_CODE,Constant.DEAL_SUCCESS);
             }
         }
-        return new Result("fail",Constant.DEAL_FAIL);
+        return new Result(Constant.FAIL_CODE,Constant.DEAL_FAIL);
     }
 
     /**
@@ -105,13 +105,13 @@ public class AdminController {
         try {
             int resul = adminService.deleteAdmins(id);
             if (resul==id.length){
-                return new Result("success",Constant.DEAL_SUCCESS);
+                return new Result(Constant.SUCCESS_CODE,Constant.DEAL_SUCCESS);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result("fail",Constant.DEAL_FAIL);
+            return new Result(Constant.FAIL_CODE,Constant.DEAL_FAIL);
         }
-        return new Result("fail",Constant.DEAL_FAIL);
+        return new Result(Constant.FAIL_CODE,Constant.DEAL_FAIL);
     }
 
     /**
@@ -123,13 +123,13 @@ public class AdminController {
     @RequestMapping(value = "/superAdmins",method = RequestMethod.POST)
     @ResponseBody
     public DataTableResult<User> getSuperAdminList(@RequestBody Pager<User> pager, HttpSession session){
-        HashMap<String, Object> paramMap = new HashMap<String, Object>();
+        Map<String, Object> paramMap = new HashMap<>();
         List<User> userList = null;
         User user = (User) session.getAttribute(Constant.USERINFO);
-        DataTableResult<User> tableResult = new DataTableResult<User>();
+        DataTableResult<User> tableResult = new DataTableResult<>();
         if (user.getUserRoleTypeId()==3) {
             userList = adminService.getSuperAdminList(pager,paramMap);
-            if (userList!=null&&userList.size()>0){
+            if (userList!=null&&!userList.isEmpty()){
                 tableResult.setRecordsFiltered(userList.size());
                 tableResult.setData(userList);
             }
@@ -151,7 +151,7 @@ public class AdminController {
         User users = (User) session.getAttribute(Constant.USERINFO);
         String[] areasId = areaIdAndId.getAreasId();
         String[] ids = areaIdAndId.getIds();
-        List<User> userList = new ArrayList<User>();
+        List<User> userList = new ArrayList<>();
         for (int i = 0; i < areasId.length; i++) {
             User user = new User();
             user.setId(ids[i]);
@@ -164,14 +164,14 @@ public class AdminController {
         try {
             int count = adminService.updateSuperToArea(userList);
             if (count==areasId.length){
-                return new Result("success",Constant.DEAL_SUCCESS);
+                return new Result(Constant.SUCCESS_CODE,Constant.DEAL_SUCCESS);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result("fail",Constant.DEAL_FAIL);
+            return new Result(Constant.FAIL_CODE,Constant.DEAL_FAIL);
         }
 
-        return new Result("fail",Constant.DEAL_FAIL);
+        return new Result(Constant.FAIL_CODE,Constant.DEAL_FAIL);
     }
 
     /**
@@ -183,12 +183,12 @@ public class AdminController {
     @RequestMapping(value = "/areaAdmins",method = RequestMethod.POST)
     @ResponseBody
     public DataTableResult<User> getAreaAdminsList(@RequestBody Pager<User> pager,HttpSession session){
-        DataTableResult<User> tableResult = new DataTableResult<User>();
+        DataTableResult<User> tableResult = new DataTableResult<>();
         User user = (User) session.getAttribute(Constant.USERINFO);
-        HashMap<String, Object> paramMap = new HashMap<String, Object>();
+        Map<String, Object> paramMap = new HashMap<>();
         if (user.getUserRoleTypeId()==3){
             List<User> userList = adminService.getAreaAdminsList(pager, paramMap);
-            if (userList!=null&&userList.size()>0){
+            if (userList!=null&&!userList.isEmpty()){
 
                 for (User user1 : userList) {
                     user1.setCreateDate(TimeFormatUtil.timeFormat(user1.getCreateDate()));
@@ -211,9 +211,9 @@ public class AdminController {
      */
     @RequestMapping(value = "/areaToSuper")
     @ResponseBody
-    public Result UpdateAreaToSuper(@RequestBody String[] ids,HttpSession session){
+    public Result updateAreaToSuper(@RequestBody String[] ids,HttpSession session){
         User users = (User) session.getAttribute(Constant.USERINFO);
-        List<User> userList = new ArrayList<User>();
+        List<User> userList = new ArrayList<>();
         for (int i = 0; i < ids.length; i++) {
             User user = new User();
             user.setId(ids[i]);
@@ -226,14 +226,14 @@ public class AdminController {
             try {
                 int result = adminService.UpdateAreaToSuper(userList);
                 if (result==ids.length){
-                    return new Result("success",Constant.DEAL_SUCCESS);
+                    return new Result(Constant.SUCCESS_CODE,Constant.DEAL_SUCCESS);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                return new Result("fail",Constant.DEAL_FAIL);
+                return new Result(Constant.FAIL_CODE,Constant.DEAL_FAIL);
             }
         }
-        return new Result("fail",Constant.DEAL_FAIL);
+        return new Result(Constant.FAIL_CODE,Constant.DEAL_FAIL);
 
     }
 
@@ -251,10 +251,10 @@ public class AdminController {
         if (user.getUserRoleTypeId()==3) {
             int result = adminService.updateAdminArea(areaIdAndId);
             if (result==1){
-                return new Result("success",Constant.DEAL_SUCCESS);
+                return new Result(Constant.SUCCESS_CODE,Constant.DEAL_SUCCESS);
             }
         }
-        return new Result("fail",Constant.DEAL_FAIL);
+        return new Result(Constant.FAIL_CODE,Constant.DEAL_FAIL);
     }
 
 }

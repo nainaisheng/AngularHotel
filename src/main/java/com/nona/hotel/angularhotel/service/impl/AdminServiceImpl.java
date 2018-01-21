@@ -5,7 +5,6 @@ import com.nona.hotel.angularhotel.mapper.AreaMapper;
 import com.nona.hotel.angularhotel.mapper.AuthorizationMapper;
 import com.nona.hotel.angularhotel.mapper.UserRoleMapper;
 import com.nona.hotel.angularhotel.pojo.*;
-import com.nona.hotel.angularhotel.pojo.*;
 import com.nona.hotel.angularhotel.service.AdminService;
 import com.nona.hotel.angularhotel.util.MD5;
 import com.nona.hotel.angularhotel.util.Pager;
@@ -15,8 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * com.nona.hotel.angularhotel.service.impl
@@ -40,7 +39,7 @@ public class AdminServiceImpl implements AdminService {
     @Resource
     private AreaMapper areaMapper;
     @Override
-    public List<User> getAdminList(Pager<User> pager, HashMap<String, Object> paramMap) {
+    public List<User> getAdminList(Pager<User> pager, Map<String, Object> paramMap) {
         List<User> userList = null;
         int result = adminMapper.getAdminCount();
         pager.setTotalCount(result);
@@ -95,6 +94,7 @@ public class AdminServiceImpl implements AdminService {
 
 
 
+    @Override
     public int deleteAdmins(String[] id) throws Exception {
         authorizationMapper.deleteAuthorizations(id);
         userRoleMapper.deleteUserRoles(id);
@@ -106,7 +106,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<User> getSuperAdminList(Pager<User> pager, HashMap<String, Object> paramMap) {
+    public List<User> getSuperAdminList(Pager<User> pager, Map<String, Object> paramMap) {
         List<User> userList = null;
         int count = adminMapper.getSuperAdminCount();
         pager.setTotalCount(count);
@@ -154,7 +154,7 @@ public class AdminServiceImpl implements AdminService {
      * @return
      */
     @Override
-    public List<User> getAreaAdminsList(Pager<User> pager, HashMap<String, Object> paramMap) {
+    public List<User> getAreaAdminsList(Pager<User> pager, Map<String, Object> paramMap) {
         List<User> userList = null;
         int count = adminMapper.getAreaAdminsCount();
         pager.setTotalCount(count);
@@ -164,7 +164,6 @@ public class AdminServiceImpl implements AdminService {
             userList = adminMapper.getAreaAdminsList(paramMap);
 
             for (User user : userList) {
-                String areaId = areaMapper.getAreaId(user.getId());
                 Area area = areaMapper.getAreaById(areaMapper.getAreaId(user.getId()));
                 user.setArea(area);
             }

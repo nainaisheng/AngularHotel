@@ -22,9 +22,9 @@ public interface RoomMapper {
 
     int getAllRoomCount();
 
-    List<Room> getAllRoomList(HashMap<String, Object> paramMap);
+    List<Room> getAllRoomList(Map<String, Object> paramMap);
 
-    List<Room> getPartRoomList(HashMap<String, Object> paramMap);
+    List<Room> getPartRoomList(Map<String, Object> paramMap);
 
     int getPartRoomCount(String areaId);
 
@@ -34,8 +34,8 @@ public interface RoomMapper {
 
     int updateRoomState(Room room);
 
-    long getOwnerRoomCount(HashMap<String, Object> paramMap);
+    long getOwnerRoomCount(Map<String, Object> paramMap);
 
-    List<Room> getRoomByOwnerId(HashMap<String, Object> paramMap);
+    List<Room> getRoomByOwnerId(Map<String, Object> paramMap);
 
 }
