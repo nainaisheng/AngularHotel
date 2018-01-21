@@ -38,14 +38,16 @@
 * http-server
 
 2.后端
-* Intellij idea2016.2
+* IntelliJ IDEA2016.2
 * tomcat7.0.67
 * jdk1.8
 * mysql5.6
 
 ## 项目使用
-1.导入sql,更改application.yml的配置
+1.导入sql,更改application.yml的数据库连接池配置
+
 2.导入项目到IDE或者直接 mvn package
+
 3.IDE运行项目或者直接java -jar target/angular-hotel-0.0.1-SNAPSHOT.jar
 
 不懂的朋友看一下网上的spring boot教程.
@@ -57,6 +59,10 @@
 ## 进展
 
 2018年1月16日 -> 完成初步的改造,使用全新的spring boot
+
+2018年1月21日 -> 删除多余的文件,文件上传问题
+
+
 
 
 
