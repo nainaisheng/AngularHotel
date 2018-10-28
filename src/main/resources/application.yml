@@ -1,0 +1,43 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: angular-hotel
+  datasource:
+    username: root
+    url: jdbc:mysql://localhost:3306/hotel
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+
+
+    http:
+      encoding:
+        charset: utf-8
+      converters:
+        preferred-json-mapper: jackson
+      multipart:
+        max-file-size: 10MB
+
+#mynatis配置
+mybatis:
+  type-aliases-package: com.nona.hotel.angularhotel.pojo
+  #mapper加载路径
+  mapper-locations: classpath:mapper/*Mapper.xml
+  #myatbis配置文件
+  config-location: classpath:mybatis-conf.xml
+
+
+##七牛云的key
+qiniu:
+  accessKey: canKgBzqR_AN_EviuOuWYUT4Vko3gi5dTNZFiQ4C
+  secretKey: feAWGHn_UmhGU2ckkHd9F2q2qFpC7lPqlemvEOCH
+  bucketName: eumji025
+  basePath: http://of8rkrh1w.bkt.clouddn.com/
+
+#加载log4j2
+logging:
+  config: classpath:log4j2.xml
+  level: debug
+  file:
+
+

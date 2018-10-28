@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mapper.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+  
+<mapper namespace="com.nona.hotel.angularhotel.mapper.OrderMapper">
+	<resultMap id="order" type="com.nona.hotel.angularhotel.pojo.Order">
+		<id column="Id" property="id"/>
+		<association property="user" column="UserId" javaType="com.nona.hotel.angularhotel.pojo.User" select="getUser">
+			<id column="Id" property="id"/>
+		</association>
+		<association property="room" column="RoomId" javaType="com.nona.hotel.angularhotel.pojo.Room" select="getRoom">
+			<id column="Id" property="id"/>
+		</association><association property="user" column="UserId" javaType="com.nona.hotel.angularhotel.pojo.User" select="getUser">
+		<id column="Id" property="id"/>
+	</association>
+		<association property="room" column="RoomId" javaType="com.nona.hotel.angularhotel.pojo.Room" select="getRoom">
+			<id column="Id" property="id"/>
+		</association>
+	</resultMap>
+
+	<select id="getOutstandingOrderCount" resultType="int">
+		SELECT count(*) FROM t_order WHERE OrderStateId = #{orderStatId}
+	</select>
+	<select id="getOutstandingOrders" resultMap="order">
+		SELECT * FROM t_order WHERE OrderStateId=#{orderStatId}  ORDER BY Id DESC limit #{start},#{limit}
+	</select>
+	<select id="getUser" resultType="com.nona.hotel.angularhotel.pojo.User">
+		select * from t_user where Id = #{id}
+	</select>
+	<select id="getRoom" resultType="com.nona.hotel.angularhotel.pojo.Room">
+		SELECT * from t_room where Id = #{id}
+	</select>
+
+	<select id="getPartRoomCount" resultType="int">
+		SELECT count(*)
+		FROM
+		  t_room
+			WHERE
+				t_room.UserId IN (
+					SELECT
+						t_userrole.UserId
+					FROM
+						t_userrole
+					WHERE
+						t_userrole.Id IN (
+							SELECT
+								t_authorization.UserRoleId
+							FROM
+								t_authorization
+							WHERE
+								t_authorization.AreaId IN (
+									SELECT
+										t_area.Id
+									FROM
+										t_area
+									WHERE
+										t_area.Id=#{areaId}
+									OR t_area.ParentId=#{areaId}
+								)
+						)
+				)
+	</select>
+
+	<select id="getPartRoomList"  resultType="com.nona.hotel.angularhotel.pojo.Room">
+		SELECT
+			*
+		FROM
+			t_room
+		WHERE
+			t_room.UserId IN (
+				SELECT
+					t_userrole.UserId
+				FROM
+					t_userrole
+				WHERE
+					t_userrole.Id IN (
+						SELECT
+							t_authorization.UserRoleId
+						FROM
+							t_authorization
+						WHERE
+							t_authorization.AreaId IN (
+								SELECT
+									t_area.Id
+								FROM
+									t_area
+								WHERE
+									t_area.Id = #{areaId}
+								OR t_area.ParentId = #{areaId}
+							)
+					)
+			)
+		ORDER BY
+			t_room.Id DESC
+		LIMIT #{start},
+		 #{limit}
+	</select>
+
+	<select id="getRoomInfoById" resultType="com.nona.hotel.angularhotel.pojo.Room">
+		SELECT * FROM t_room WHERE Id=#{id}
+	</select>
+
+	<delete id="deleteRoomById" parameterType="map">
+		DELETE FROM t_room WHERE Id in
+		<foreach collection="roomsId" index="index" item="item" open="(" separator="," close=")">
+		  #{item}
+		</foreach>
+	</delete>
+
+	<select id="getPartOutStandingOrderCount" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			t_order
+		WHERE
+			RoomId IN (
+				SELECT
+					t_room.Id
+				FROM
+					t_room
+				WHERE
+					t_room.UserId IN (
+
+						SELECT
+							t_userrole.UserId
+						FROM
+							t_userrole
+						WHERE
+							t_userrole.Id IN (
+								SELECT
+									t_authorization.UserRoleId
+								FROM
+									t_authorization
+								WHERE
+									t_authorization.AreaId IN (
+										SELECT
+											t_area.Id
+										FROM
+											t_area
+										WHERE
+											t_area.Id = #{areaId}
+										OR t_area.ParentId = #{areaId}
+									)
+							)
+					)
+			)
+			AND OrderStateId = #{orderStatId}
+	</select>
+	<select id="getPartOutStandingOrder" resultMap="order">
+			SELECT
+			*
+			FROM
+				t_order
+			WHERE
+				RoomId IN (
+					SELECT
+						t_room.Id
+					FROM
+						t_room
+					WHERE
+						t_room.UserId IN (
+
+							SELECT
+								t_userrole.UserId
+							FROM
+								t_userrole
+							WHERE
+								t_userrole.Id IN (
+									SELECT
+										t_authorization.UserRoleId
+									FROM
+										t_authorization
+									WHERE
+										t_authorization.AreaId IN (
+											SELECT
+												t_area.Id
+											FROM
+												t_area
+											WHERE
+												t_area.Id = #{areaId}
+											OR t_area.ParentId = #{areaId}
+										)
+								)
+						)
+				)
+				AND OrderStateId = #{orderStatId}
+				ORDER BY
+				Id DESC
+				LIMIT #{start},#{limit}
+	</select>
+
+	<select id="getAllFinishedOrderCount" resultType="int">
+		SELECT COUNT(*) FROM t_order WHERE t_order.OrderStateId=1
+	</select>
+
+	<delete id="deleteOrderByRoomId" parameterType="map">
+		DELETE FROM t_order WHERE t_order.RoomId in
+		<foreach collection="roomsId" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
